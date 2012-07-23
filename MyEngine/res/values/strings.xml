@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">MyAndengine</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MyEngine</string>
+    <string name="title_activity_fps">FpsActivity</string>
+    <string name="title_activity_basic">BasicActivity</string>
+    <string name="title_activity_sprite01">Sprite01</string>
+    <string name="title_activity_moving_ball">MovingBallActivity</string>
+
+</resources>
