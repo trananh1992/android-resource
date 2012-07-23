@@ -1,5 +1,6 @@
 package com.yinzch.chapter03;
 
+import com.yinzch.chapter03.resources.TabhostActivity;
 import com.yinzch.chapter03.resources.TestBitmap;
 import com.yinzch.chapter03.resources.TestColor;
 import com.yinzch.chapter03.resources.TestDimension;
@@ -30,7 +31,8 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         // 不能再设置布局
         //setContentView(R.layout.activity_main);
-        String[] items = {"Test Color","Test String","Test Dimension","Test XML","Test Bitmap","Test Menu","Test Layout"};
+        String[] items = {"Test Color","Test String","Test Dimension","Test XML","Test Bitmap",
+        		"Test Menu","Test Layout", "选项卡"};
         setListAdapter(new ArrayAdapter<String>(this,
         		android.R.layout.simple_list_item_1, items));
         getListView().setTextFilterEnabled(true);
@@ -68,6 +70,10 @@ public class MainActivity extends ListActivity {
     		break;
     	case 6:
     		intent = new Intent(MainActivity.this, TestLayout.class);
+    		startActivity(intent);
+    		break;
+    	case 7:
+    		intent = new Intent(MainActivity.this, TabhostActivity.class);
     		startActivity(intent);
     		break;
     	}

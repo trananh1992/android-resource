@@ -11,11 +11,12 @@
     <string name="title_activity_test_bitmap">TestBitmap</string>
     <string name="title_activity_test_menu">TestMenu</string>
     <string name="title_activity_test_layout">TestLayout</string>
-    
     <string name="str1">从代码中引用</string>
     <string name="str2">从资源文件中引用</string>
     <string name="test_dimen">测试尺寸资源</string>
-    
+
     <dimen name="str_dimen">150px</dimen>
+
+    <string name="title_activity_tabhost">TabhostActivity</string>
 
 </resources>

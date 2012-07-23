@@ -48,6 +48,10 @@
             android:name=".resources.TestLayout"
             android:label="@string/title_activity_test_layout" >
         </activity>
+        <activity
+            android:name=".resources.TabhostActivity"
+            android:label="@string/title_activity_tabhost" >
+        </activity>
     </application>
 
 </manifest>
