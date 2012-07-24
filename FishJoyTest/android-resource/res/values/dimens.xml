@@ -1,0 +1,12 @@
+<resources>
+
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    
+	<dimen name="text_width">150px</dimen>
+    <dimen name="text_height">100px</dimen>
+    <dimen name="btn_width">30mm</dimen>
+    <dimen name="btn_height">10mm</dimen>
+    
+</resources>

@@ -1,0 +1,57 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yinzch.chapter03"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="4"
+        android:targetSdkVersion="15" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".resources.TestColor"
+            android:label="@string/title_activity_color" >
+        </activity>
+        <activity
+            android:name=".resources.TestString"
+            android:label="@string/title_activity_test_string" >
+        </activity>
+        <activity
+            android:name=".resources.TestDimension"
+            android:label="@string/title_activity_test_dimension" >
+        </activity>
+        <activity
+            android:name=".resources.TestXml"
+            android:label="@string/title_activity_test_xml" >
+        </activity>
+        <activity
+            android:name=".resources.TestBitmap"
+            android:label="@string/title_activity_test_bitmap" >
+        </activity>
+        <activity
+            android:name=".resources.TestMenu"
+            android:label="@string/title_activity_test_menu" >
+        </activity>
+        <activity
+            android:name=".resources.TestLayout"
+            android:label="@string/title_activity_test_layout" >
+        </activity>
+        <activity
+            android:name=".resources.TabhostActivity"
+            android:label="@string/title_activity_tabhost" >
+        </activity>
+    </application>
+
+</manifest>
