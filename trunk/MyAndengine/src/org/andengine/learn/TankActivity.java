@@ -43,16 +43,19 @@ public class TankActivity extends BaseGameActivity {
 	@Override
 	public void onLoadResources() {
 		this.background = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.mEngine.getTextureManager(), 
-				new AssetBitmapTextureAtlasSource(this, "gfx/background.png"));
-        BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(128, 256, TextureOptions.DEFAULT);  
-        mSpriteTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory  
-                .createTiledFromAsset(mBitmapTextureAtlas, this, "face_box.png", 0, 0, 1, 1);  
+				new AssetBitmapTextureAtlasSource(this, "gfx/background_3.png"));
+		
+        BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.DEFAULT);  
+        mSpriteTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
+        		mBitmapTextureAtlas, this, "gfx/face_box.png", 0, 0, 1, 1);  
         this.mEngine.getTextureManager().loadTexture(mBitmapTextureAtlas);  
 	}
 
 	@Override
 	public Scene onLoadScene() 
 	{
+		this.mEngine.registerUpdateHandler(new FPSLogger());
+		
 		Scene mScene = new Scene(); 
 		// …Ë÷√±≥æ∞  
         mScene.setBackground(background); 
@@ -104,7 +107,7 @@ public class TankActivity extends BaseGameActivity {
                 }  
                 return true;  
             }  
-        });  
+        });
         
 		return mScene;
 	}
