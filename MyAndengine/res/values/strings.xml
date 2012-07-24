@@ -8,5 +8,6 @@
     <string name="title_activity_basic">BasicActivity</string>
     <string name="title_activity_sprite01">Sprite01</string>
     <string name="title_activity_moving_ball">MovingBallActivity</string>
+    <string name="title_activity_tank">TankActivity</string>
 
 </resources>

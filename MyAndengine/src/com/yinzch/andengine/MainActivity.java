@@ -4,6 +4,7 @@ import org.andengine.learn.BasicActivity;
 import org.andengine.learn.FpsActivity;
 import org.andengine.learn.MovingBallActivity;
 import org.andengine.learn.Sprite01;
+import org.andengine.learn.TankActivity;
 
 import android.os.Bundle;
 import android.app.ListActivity;
@@ -20,7 +21,8 @@ public class MainActivity extends ListActivity {
     	super.onCreate(savedInstanceState);
         // 不能再设置布局
         //setContentView(R.layout.activity_main);
-        String[] items = {"Basic Activity", "FPS Activity", "Sprite 01", "动画精灵：移动的小球"};
+        String[] items = {"Basic Activity", "FPS Activity", "Sprite 01", "动画精灵：移动的小球",
+        		"移动的坦克"};
         setListAdapter(new ArrayAdapter<String>(this,
         		android.R.layout.simple_list_item_1, items));
         getListView().setTextFilterEnabled(true);
@@ -48,6 +50,10 @@ public class MainActivity extends ListActivity {
     	case 3:
     		Toast.makeText(MainActivity.this, "TiledTextureRegion", Toast.LENGTH_LONG).show();
     		intent = new Intent(MainActivity.this, MovingBallActivity.class);
+    		startActivity(intent);
+    		break;
+    	case 4:
+    		intent = new Intent(MainActivity.this, TankActivity.class);
     		startActivity(intent);
     		break;
     		
