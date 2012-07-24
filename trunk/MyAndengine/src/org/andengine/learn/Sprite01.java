@@ -34,13 +34,22 @@ public class Sprite01 extends BaseGameActivity {
 				new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
+	// 分别取四个动画的区域  
+    // 解释一下创建mSnapdragonTextureRegion时的参数0，0，4，3，  
+    // 其中的0，0代表该区域在mBitmapTextureAtlas中的起始位置  
+    // 我们需要设置该位置，使四个TextureRegion不重叠  
+    // 同样，想象一下mBitmapTextureAtlas是一张大画布，我们在上边画画，画了四张图片，每张是一个TextureRegion  
+    // 下边解释4，3  
+    // 4代表列数，3代表行数  
+    // 观察一下图片就可以看见，snapdragon_tiled.png这幅图片是分了3行4列的
 	@Override
 	public void onLoadResources() {
 		// BitmapTextureAtlas的参数不能小于图片的大小，且必须为2的整数幂
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
                 //gfx是asset目录下的一个文件夹，里面有“face_box.png”这个图片
 				BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-				
+		
+		// 可以指定图片的行数和列数
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, 
 				this, "fish_1.png", 0, 0);
 

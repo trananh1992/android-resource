@@ -38,6 +38,10 @@
             android:name="org.andengine.learn.MovingBallActivity"
             android:label="@string/title_activity_moving_ball" >
         </activity>
+        <activity
+            android:name="org.andengine.learn.TankActivity"
+            android:label="@string/title_activity_tank" >
+        </activity>
     </application>
 
 </manifest>
