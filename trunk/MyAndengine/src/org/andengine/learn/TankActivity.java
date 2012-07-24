@@ -62,7 +62,6 @@ public class TankActivity extends BaseGameActivity {
         
         final AnimatedSprite tank = new AnimatedSprite(400, 200, mSpriteTiledTextureRegion);  
         mScene.attachChild(tank);  
-        
         // 注册精灵要实现触摸效果  
         mScene.registerTouchArea(tank); 
         
@@ -70,6 +69,7 @@ public class TankActivity extends BaseGameActivity {
         final PhysicsHandler physicsHandler = new PhysicsHandler(tank);  
         tank.registerUpdateHandler(physicsHandler);
         
+        // 匿名类就是一个子类，可以重写或继承父类的方法
         // 为场景注册触摸监听事件  
         mScene.setOnSceneTouchListener(new IOnSceneTouchListener() 
         {  
