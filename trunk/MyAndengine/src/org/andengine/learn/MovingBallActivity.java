@@ -67,6 +67,7 @@ public class MovingBallActivity extends BaseGameActivity {
 		ball.registerUpdateHandler(physicsHandler);
 		physicsHandler.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
 
+		// Ö¡½»Ìæ
 		ball.animate(100);
 		
 		scene.attachChild(ball);
