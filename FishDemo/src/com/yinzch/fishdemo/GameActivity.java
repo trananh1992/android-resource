@@ -1,5 +1,8 @@
 package com.yinzch.fishdemo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
@@ -34,6 +37,10 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	
 	private TextureRegion mBackgroundTextureRegion;
 	
+	HashMap<Fish_Name, TiledTextureRegion> allMovingFishTextureRegionMap = 
+			new HashMap<Fish_Name, TiledTextureRegion>();
+	private ArrayList<Fish> movingFishList = new ArrayList<Fish>();
+	
 	@Override
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -46,11 +53,20 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	public void onLoadResources() 
 	{
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		
 		BitmapTextureAtlas mBackgroundTexture = new BitmapTextureAtlas(1024, 512, 
 				TextureOptions.DEFAULT);
 		mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
 				mBackgroundTexture, this, "background_easy.png", 0, 0);
-		this.mEngine.getTextureManager().loadTexture(mBackgroundTexture);
+		
+		BitmapTextureAtlas SARDINETexture =new BitmapTextureAtlas(64, 256, 
+				TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		TiledTextureRegion  SARDINETiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(
+				SARDINETexture, this, "sardine_1.png", 0, 0, 1, 5);			// 1列5行
+		// 放进容器
+		allMovingFishTextureRegionMap.put(Fish_Name.SARDINE, SARDINETiledTextureRegion);
+		
+		this.mEngine.getTextureManager().loadTextures(mBackgroundTexture, SARDINETexture);
 	}
 
 	@Override
@@ -61,6 +77,13 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		// 将背景精灵附加到背景层
 		mScene.setBackgroundEnabled(false);
 		mScene.getFirstChild().attachChild(new Sprite(0, 0, mBackgroundTextureRegion));
+		
+		Fish fish1 = new Fish(Fish_Name.SARDINE, allMovingFishTextureRegionMap.get(Fish_Name.SARDINE));
+		fish1.animate(100);
+		mScene.attachChild(new Entity());
+		mScene.getChild(1).attachChild(fish1);
+		Log.i("层数", String.valueOf(mScene.getChildCount()));
+		
 		return mScene;
 	}
 

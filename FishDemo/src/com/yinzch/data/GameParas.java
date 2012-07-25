@@ -1,6 +1,7 @@
 package com.yinzch.data;
 
-public interface GameParas{
+public interface GameParas extends GameEnum
+{
 	
 	public static final int CAMERA_WIDTH = 480; 
 	public static final int CAMERA_HEIGHT = 320;
