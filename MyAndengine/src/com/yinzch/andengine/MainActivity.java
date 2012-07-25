@@ -23,7 +23,7 @@ public class MainActivity extends ListActivity {
         // 不能再设置布局
         //setContentView(R.layout.activity_main);
         String[] items = {"Basic Activity", "FPS Activity", "Sprite 01", "动画精灵：移动的小球",
-        		"静态图片背景", "移动的坦克"};
+        		"静态图片背景", "移动的坦克", "划线"};
         setListAdapter(new ArrayAdapter<String>(this,
         		android.R.layout.simple_list_item_1, items));
         getListView().setTextFilterEnabled(true);
@@ -59,6 +59,10 @@ public class MainActivity extends ListActivity {
     		break;
     	case 5:
     		intent = new Intent(MainActivity.this, TankActivity.class);
+    		startActivity(intent);
+    		break;
+    	case 6:
+    		intent = new Intent(MainActivity.this, LineActivity.class);
     		startActivity(intent);
     		break;
     		
