@@ -27,6 +27,7 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.MathUtils;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.yinzch.data.GameParas;
 import com.yinzch.data.Matrix;
@@ -73,6 +74,7 @@ public class GameActivity extends BaseGameActivity implements GameParas
 
 	@Override
 	public Scene onLoadScene() {
+		//Toast.makeText(GameActivity.this, "我们走完了", Toast.LENGTH_LONG).show();
 		mScene = new Scene();
 		mScene.attachChild(new Entity());
 		Log.i("层数", String.valueOf(mScene.getChildCount()));
@@ -82,18 +84,53 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		
 		mScene.attachChild(new Entity());			// 鱼层
 		String str = "EASY";
-		int distance = create_Char_Move(str.charAt(0), 0)*38+38;	
+		int distance = create_Char_Move(str.charAt(0), 0)*38+38;
 		
-		// TiledTextureRegion.clone()
-		/*Fish fish1 = new Fish(Fish_Name.SARDINE, allMovingFishTextureRegionMap.get(Fish_Name.SARDINE));
-		fish1.animate(100);
-		mScene.attachChild(new Entity());
-		mScene.getChild(1).attachChild(fish1);
-		Log.i("层数", String.valueOf(mScene.getChildCount()));*/
+		//creat_Circle_Group(Fish_Name.SARDINE, movingFishList);
+		
+		mScene.registerUpdateHandler(new IUpdateHandler() {
+			int i = 0;
+			@Override
+			public void reset() { }
+			@Override
+			public void onUpdate(final float pSecondsElapsed) 
+			{
+				if(movingFishList.get(movingFishList.size()-1).isOutOfBound() && i == 0)
+				{
+					i++;
+					Log.d("标记", String.valueOf(i));
+					creat_Circle_Group(Fish_Name.SARDINE, movingFishList);
+				}
+			}
+		});
 		
 		return mScene;
 	}
 
+	public void creat_Circle_Group(Fish_Name fishName, ArrayList<Fish> movingFishList)
+	{
+		//Move_Direction direction=this.getDirection();
+		Move_Direction direction = Move_Direction.RIGHT;
+		
+		for(int i = 0; i < 3; i++)
+		{	// 用三条鱼构建鱼群，分布在上中下
+				Fish fish = new Fish(fishName,allMovingFishTextureRegionMap.get(Fish_Name.SARDINE).clone());
+				if(i==0)
+					fish.set_edge_position(Edge_Position.UP);
+				else if(i==1)
+					fish.set_edge_position(Edge_Position.MIDDLE);
+				else if(i==2)
+					fish.set_edge_position(Edge_Position.DOWN);
+				fish.set_side(direction);
+				fish.set_Circle_Move();
+				fish.animate(100);
+				fish.setSize(36, 18);
+				
+				movingFishList.add(fish);
+				mScene.getChild(1).attachChild(fish);	
+		}		
+	}
+	
 	int create_Char_Move(char ch, int i)
 	{
 		//Move_Direction direction = Move_Direction.RIGHT;		// 移动方向：RANDOM,LEFT,RIGHT		
@@ -118,8 +155,7 @@ public class GameActivity extends BaseGameActivity implements GameParas
 					//fish.set_Fish_Operation(fishOperation);
 					fish.set_side(Move_Direction.RIGHT);				// 设置鱼向右游动
 					fish.set_fixed_Y(t*33+60);							// 设置鱼的位置坐标
-					fish.set_fixed_X(CAMERA_WIDTH+j*38+i);
-					// Move_Direction.RIGHT == 0
+					fish.set_fixed_X(0 + j*38+i);
 					fish.set_Direct_Move(0);
 					
 					fish.animate(100);
@@ -135,7 +171,7 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	
 	@Override
 	public void onLoadComplete() {
-		
+		//Toast.makeText(GameActivity.this, "我们走完了", Toast.LENGTH_LONG).show();
 	}
 }
 
