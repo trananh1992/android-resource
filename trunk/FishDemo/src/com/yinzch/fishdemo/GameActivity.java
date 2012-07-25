@@ -57,6 +57,8 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	public Scene onLoadScene() {
 		mScene = new Scene();
 		Log.i("层数", String.valueOf(mScene.getChildCount()));
+		// 将背景精灵附加到背景层
+		mScene.setBackgroundEnabled(false);
 		return null;
 	}
 
