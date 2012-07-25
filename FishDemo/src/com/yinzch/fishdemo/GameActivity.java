@@ -43,8 +43,8 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	}
 
 	@Override
-	public void onLoadResources() {
-		//TextureRegionFactory.setAssetBasePath("gfx/");
+	public void onLoadResources() 
+	{
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		BitmapTextureAtlas mBackgroundTexture = new BitmapTextureAtlas(1024, 512, 
 				TextureOptions.DEFAULT);
@@ -56,10 +56,12 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	@Override
 	public Scene onLoadScene() {
 		mScene = new Scene();
+		mScene.attachChild(new Entity());
 		Log.i("层数", String.valueOf(mScene.getChildCount()));
 		// 将背景精灵附加到背景层
 		mScene.setBackgroundEnabled(false);
-		return null;
+		mScene.getFirstChild().attachChild(new Sprite(0, 0, mBackgroundTextureRegion));
+		return mScene;
 	}
 
 	@Override
