@@ -45,11 +45,10 @@
         <activity
             android:name="org.andengine.learn.staticBackgroundActivity"
             android:label="@string/title_activity_static_background" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LineActivity"
+            android:label="@string/title_activity_line" >
         </activity>
     </application>
 

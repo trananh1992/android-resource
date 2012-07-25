@@ -1,7 +1,7 @@
 package org.andengine.learn;
 
 import org.anddev.andengine.ui.activity.BaseGameActivity;
-import org.anddev.andengine.util.MathUtils;
+import org.anddev.andengine.util.MathUtils;			// andengine的函数库
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.physics.PhysicsHandler;
@@ -62,7 +62,7 @@ public class TankActivity extends BaseGameActivity {
         
         final AnimatedSprite tank = new AnimatedSprite(400, 200, mSpriteTiledTextureRegion);  
         mScene.attachChild(tank);  
-        // 注册精灵要实现触摸效果  
+        // 注册精灵要实现触摸效果(屏幕范围内)  
         mScene.registerTouchArea(tank); 
         
         // 构建运动机制  
@@ -101,7 +101,7 @@ public class TankActivity extends BaseGameActivity {
                     tank.setRotation(MathUtils.radToDeg(angleRad) + 90);  
                     break;  
                 case TouchEvent.ACTION_UP:  
-                    // 松开按键后，将运动状态还原  
+                    // 松开按键后，将运动状态还原(即停止运动)  
                     physicsHandler.reset();  
                     break;  
                 }  

@@ -6,8 +6,10 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -15,7 +17,9 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
+
+import android.util.Log;
 
 public class Sprite01 extends BaseGameActivity {
 
@@ -25,7 +29,9 @@ public class Sprite01 extends BaseGameActivity {
 	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;		// 声明纹理用于加载资源
 	// Textureregion的作用似乎就是让系统知道如何剪切一个纹理，并返回一个这样的纹理
-	private TextureRegion mFaceTextureRegion;			
+	private TextureRegion mFaceTextureRegion;
+	// 使用瓦片来设定纹理
+	private TiledTextureRegion mFaceTiledTextureRegion;
 
 	@Override
 	public Engine onLoadEngine() {
@@ -49,9 +55,11 @@ public class Sprite01 extends BaseGameActivity {
                 //gfx是asset目录下的一个文件夹，里面有“face_box.png”这个图片
 				BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		
-		// 可以指定图片的行数和列数
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, 
-				this, "fish_1.png", 0, 0);
+		//this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, 
+		//		this, "face_circle_tiled.png", 0, 0);
+		// TiledTextureRegion可以指定图片的行数和列数(先列后行)
+		this.mFaceTiledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mBitmapTextureAtlas, 
+				this, "face_circle_tiled.png", 0, 0, 2, 1);
 
 		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
@@ -64,8 +72,8 @@ public class Sprite01 extends BaseGameActivity {
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mFaceTiledTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTiledTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene.
 		 * Sprite:精灵是一个矩形图形
@@ -77,12 +85,21 @@ public class Sprite01 extends BaseGameActivity {
 		 * A TextureRegion is used by Sprites to let the system know what part of 
 		 *   the big Texture the Sprite is showing
 		*/
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
+		// 精灵和相应的TextureRegion相对应
+		// AnimatedSprite是根据时间或者其他因素来触发更换图片资源
+		//final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
+		final AnimatedSprite face = new AnimatedSprite(centerX, centerY, this.mFaceTiledTextureRegion);
+		face.animate(100);
+		// 将精灵注入场景
 		scene.attachChild(face);
 		
-		///final ChangeableText text = new ChangeableText(5, 5, ,
-        //        "0.0", 5);
-
+		final Line line = new Line(0, 240, 720, 240, 5.0f);
+		line.setColor(1, 0, 0);
+		// 初始化scene时不指定层数会出错
+		int num = scene.getChildCount();
+		Log.i(ACTIVITY_SERVICE, String.valueOf(num));
+		scene.getFirstChild().attachChild(line);
+		
 		return scene;
 	}
 

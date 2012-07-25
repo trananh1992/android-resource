@@ -10,5 +10,6 @@
     <string name="title_activity_moving_ball">MovingBallActivity</string>
     <string name="title_activity_tank">TankActivity</string>
     <string name="title_activity_static_background">staticBackgroundActivity</string>
+    <string name="title_activity_line">LineActivity</string>
 
 </resources>
