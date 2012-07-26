@@ -37,7 +37,8 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 
-public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListener{
+public class DemoActivity extends BaseGameActivity //implements IOnSceneTouchListener
+{
 	private static final int CAMERA_WIDTH = 480;
 	private static final int CAMERA_HEIGHT = 320;
 	
@@ -92,28 +93,28 @@ public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListe
 		this.cannon2TextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.cannonTexture, this, "09levelpao.png", 200, 0, 1, 1);
 		
 		this.netTexture = new BitmapTextureAtlas(1024, 1024, TextureOptions.DEFAULT);
-		this.netTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.netTexture, this, "1.png", 0, 0, 2, 1);
+		this.netTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.netTexture, this, "nets.png", 0, 0, 1, 5);
 	
 		this.seaTexture = new BitmapTextureAtlas(1024, 1024, TextureOptions.DEFAULT);
 		this.seaTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.seaTexture,this, "sea.png", 0, 0);
 		this.mEngine.getTextureManager().loadTextures(this.seaTexture, this.fishTexture, this.cannonTexture, this.netTexture);	
 	}
 
-	public Scene onLoadScene() {
-		// TODO Auto-generated method stub
-		
-		scene.setOnSceneTouchListener(this);
+	public Scene onLoadScene() 
+	{
+		//scene.setOnSceneTouchListener(this);
+		// 背景
 		final AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0, 0, 0, 5);
 		autoParallaxBackground.attachParallaxEntity(new ParallaxEntity(5.0f, new Sprite(0, 0, this.seaTextureRegion)));
 		scene.setBackground(autoParallaxBackground);
 
 		final int centerX = (CAMERA_WIDTH - this.fish1TextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.fish1TextureRegion.getHeight()) / 2;
-		
+		/*
 		fish = new Fish(centerX, centerY, this.fish1TextureRegion, mEngine);
 		final PhysicsHandler physicsHandler = new PhysicsHandler(fish);
 		fish.registerUpdateHandler(physicsHandler);
-
+		*/
 		fish2 = new AnimatedSprite(200, 100, this.fish2TextureRegion);
 			
 		SharedPreferences preferences = getSharedPreferences("PathSaver", Context.MODE_PRIVATE);
@@ -132,7 +133,7 @@ public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListe
         
         final Path path = new Path(5).to(a[0], a[1]).to(a[2], a[3]).to(a[4], a[5]).to(a[6], a[7]).to(a[8], a[9]);
         
-		/* Add the proper animation when a waypoint of the path is passed. */
+		//Add the proper animation when a waypoint of the path is passed. 
 		fish2.registerEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			
 			public void onPathStarted(final PathModifier pPathModifier, final IEntity pEntity) {
@@ -169,10 +170,10 @@ public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListe
 			}
 		}, EaseSineInOut.getInstance())));
 		
-		fish.animate(100);
-		fish2.animate(300);
+		//fish.animate(100);
+		fish2.animate(1000);
 		
-		scene.attachChild(fish);
+		//scene.attachChild(fish);
 		scene.attachChild(fish2);
 		
 		cannon = new AnimatedSprite(200, 200, this.cannon1TextureRegion);
@@ -184,6 +185,7 @@ public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListe
 		scene.attachChild(cannon1);
 		scene.attachChild(cannon);
 		
+		// 为炮台注册触摸事件监听器
 		scene.registerTouchArea(cannon);
 		scene.registerTouchArea(cannon1);
 		
@@ -196,7 +198,7 @@ public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListe
 			            AnimatedSprite ta = (AnimatedSprite) arg1;
 			            
 			            if (n == 1) {
-				            ta.setVisible(false);
+				            ta.setVisible(false);			// 使一个炮台可见，另一个不可见
 				            cannon1.setVisible(true);
 				            n = 2;
 						}
@@ -208,11 +210,11 @@ public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListe
 			        }  
 			        return true; 
 			}
-		});	
+		});
 		return scene;
 	}
 
-	public boolean onSceneTouchEvent(Scene arg0, TouchEvent arg1) {
+	/*public boolean onSceneTouchEvent(Scene arg0, TouchEvent arg1) {
 		// TODO Auto-generated method stub
 		float angle = MathUtils.atan2(cannon.getY() + cannon.getHeight()/2 - arg1.getY(), 
 				(cannon.getX() + cannon.getWidth()/2 - arg1.getX()));
@@ -243,102 +245,11 @@ public class DemoActivity extends BaseGameActivity implements IOnSceneTouchListe
 				}
 			}
 		});
-		
-//		scene.attachChild(net);
-//		Path path1 = new Path(2).to(200, 200).to(arg1.getX(), arg1.getY());
-//		
-//		net.registerEntityModifier(new PathModifier(200, path1));
-//		PhysicsHandler physicsHandler = new PhysicsHandler(net);
-//		net.registerUpdateHandler(physicsHandler);
-//		physicsHandler.setVelocity(100);
 		return false;
-	}
+	}*/
 
 }
 
 
 
-//physicsHandler.setVelocity(100, 100);
-
-//
-//fish.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-//
-//final LoopEntityModifier entityModifier =
-//	new LoopEntityModifier(
-//			new IEntityModifierListener() {
-//				
-//				public void onModifierStarted(final IModifier<IEntity> pModifier, final IEntity pItem) {
-//					DemoActivity.this.runOnUiThread(new Runnable() {
-//						
-//						public void run() {
-//							Toast.makeText(DemoActivity.this, "Sequence started.", Toast.LENGTH_SHORT).show();
-//						}
-//					});
-//				}
-//
-//				
-//				public void onModifierFinished(final IModifier<IEntity> pEntityModifier, final IEntity pEntity) {
-//					DemoActivity.this.runOnUiThread(new Runnable() {
-//						
-//						public void run() {
-//							Toast.makeText(DemoActivity.this, "Sequence finished.", Toast.LENGTH_SHORT).show();
-//						}
-//					});
-//				}
-//			},
-//			2,
-//			new ILoopEntityModifierListener() {
-//				
-//				public void onLoopStarted(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {
-//					DemoActivity.this.runOnUiThread(new Runnable() {
-//						
-//						public void run() {
-//							Toast.makeText(DemoActivity.this, "Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' started.", Toast.LENGTH_SHORT).show();
-//						}
-//					});
-//				}
-//
-//				
-//				public void onLoopFinished(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {
-//					DemoActivity.this.runOnUiThread(new Runnable() {
-//						
-//						public void run() {
-//							Toast.makeText(DemoActivity.this, "Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' finished.", Toast.LENGTH_SHORT).show();
-//						}
-//					});
-//				}
-//			},
-////			new SequenceEntityModifier(
-////					new RotationModifier(1, 0, 70),
-////					new ScaleModifier(2, 1, 2f),
-////					new DelayModifier(0.5f)
-////					new ParallelEntityModifier(
-////							new ScaleModifier(3, 0.5f, 5),
-////							new RotationByModifier(3, 90)
-////					),
-////					new ParallelEntityModifier(
-////							new ScaleModifier(3, 5, 1),
-////							new RotationModifier(3, 180, 0)
-////					)
-////			)
-//	);
-
-//fish.registerEntityModifier(new SequenceEntityModifier(
-//	    new ParallelEntityModifier(
-//	    	      new MoveYModifier(
-//	    	        11,
-//	    	        0.0f,
-//	    	        CAMERA_HEIGHT - 40.0f,
-//	    	        EaseQuadOut
-//	    	          .getInstance()),
-//	    	      new AlphaModifier(
-//	    	        10,
-//	    	        0.0f,
-//	    	        1.0f),
-//	    	      new ScaleModifier(
-//	    	        4,
-//	    	        0.5f,
-//	    	        1.0f)),
-//	    	    new RotationModifier(2,
-//	    	      0, 360)));
 
