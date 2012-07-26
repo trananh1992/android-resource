@@ -9,10 +9,6 @@ import android.util.Log;
 
 import com.fishjoy.activity.Fish;
 import com.fishjoy.model.GameParas;
-import com.fishjoy.model.GameParas.Edge_Position;
-import com.fishjoy.model.GameParas.Fish_Name;
-import com.fishjoy.model.GameParas.Move_Direction;
-
 
 /**
  * FishFactory:生成鱼的各种游动路径
@@ -54,13 +50,13 @@ public class FishFactory implements GameParas{
 			// 使用了第一种鱼,Id == 1
 				Fish fish = new Fish(1, FishRegion.get(0).clone());
 				if(i==0)
-					fish.setY(30);
-				else if(i==1)
 					fish.setY(70);
+				else if(i==1)
+					fish.setY(130);
 				else if(i==2)
 					fish.setY(190);
 				
-				fish.setX(CAMERA_WIDTH / 2);
+				fish.setX(CAMERA_WIDTH);
 				fish.setDirection("Right");
 				fish.setCirclePath();
 				
