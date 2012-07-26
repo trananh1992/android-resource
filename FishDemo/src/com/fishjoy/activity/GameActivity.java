@@ -39,9 +39,8 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	private Camera mCamera;
 	private Scene mScene;
 	
-	int gamepattern;			// 游戏模式
-	
-	private TextureRegion mBackgroundTextureRegion;
+	int gamepattern;// 游戏模式
+	private TextureRegion backRegion;
 	
 	// 游动鱼的列表（鱼超出边界或者被捕获后清除）
 	private ArrayList<Fish> movingFish = new ArrayList<Fish>();
@@ -59,14 +58,10 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	@Override
 	public void onLoadResources() 
 	{	
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		BitmapTextureAtlas mBackgroundTexture = new BitmapTextureAtlas(1024, 512, 
-				TextureOptions.DEFAULT);
-		mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
-				mBackgroundTexture, this, "background_easy.png", 0, 0);
-		this.mEngine.getTextureManager().loadTextures(mBackgroundTexture);
-		
-		// 由工厂为5种鱼创建Textregion（纹理大小都是128*256）
+		//为背景创建TextureRegion
+		backRegion = TextRegionFactory.getSingleInstance().CreateRegionForBackground(mEngine, this);
+	
+		// 由工厂为5种鱼创建TiledTextregion（纹理大小都是128*256）
 		TextRegionFactory.getSingleInstance().CreateRegionForFish(FishRegion, mEngine, this);
 	}
 
@@ -75,13 +70,13 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	{
 		mScene = new Scene();
 		
-		// 背景层：0
+		// 背景层：第0层
 		mScene.attachChild(new Entity());
 		// 将背景精灵附加到背景层
 		mScene.setBackgroundEnabled(false);
-		mScene.getFirstChild().attachChild(new Sprite(0, 0, mBackgroundTextureRegion));
+		mScene.getFirstChild().attachChild(new Sprite(0, 0, backRegion));
 		
-		// 鱼的活动层 ：1
+		// 鱼的活动层 ：第1层
 		mScene.attachChild(new Entity());
 		// 根据不同游戏模式创建不同的初始游动序列（这里暂用简单模式）
 		gamepattern = 1;
@@ -89,22 +84,6 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		
 		// 20秒后开始随机游动序列
 		
-		
-		/*mScene.registerUpdateHandler(new IUpdateHandler() {
-			int i = 0;
-			@Override
-			public void reset() { }
-			@Override
-			public void onUpdate(final float pSecondsElapsed) 
-			{
-				if(movingFish.get(movingFish.size()-1).isOutOfBound() && i == 0)
-				{
-					i++;
-					Log.d("标记", String.valueOf(i));
-					creat_Circle_Group(Fish_Name.SARDINE, movingFishList);
-				}
-			}
-		});*/
 		
 		return mScene;
 	}
