@@ -30,7 +30,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.fishjoy.model.GameParas;
-import com.fishjoy.model.Matrix;
 import com.fishjoy.controller.FishFactory;
 import com.fishjoy.controller.TextRegionFactory;
 
