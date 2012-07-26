@@ -9,7 +9,6 @@ import android.util.Log;
 
 import com.fishjoy.activity.Fish;
 import com.fishjoy.model.GameParas;
-import com.fishjoy.model.Matrix;
 import com.fishjoy.model.GameParas.Edge_Position;
 import com.fishjoy.model.GameParas.Fish_Name;
 import com.fishjoy.model.GameParas.Move_Direction;
