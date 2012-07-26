@@ -4,6 +4,8 @@ import org.anddev.andengine.engine.handler.physics.PhysicsHandler;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
+import android.util.Log;
+
 import com.fishjoy.model.GameParas;
 
 public class Fish extends AnimatedSprite implements GameParas{
@@ -29,13 +31,14 @@ public class Fish extends AnimatedSprite implements GameParas{
 	@Override
 	protected void onManagedUpdate(final float pSecondsElapsed)
 	{
+		//Log.i("提示", "Fish.onManagedUpdate()");	// 每时每刻都在调用
 		super.onManagedUpdate(pSecondsElapsed);
 		// 更新鱼
-		float x=this.getX();			// 获取鱼精灵当前的坐标(继承)
+		float x=this.getX();				// 获取鱼精灵当前的坐标(继承)
 		float y=this.getY();
-		float rotation = this.getRotation();		// 当前方位角度（继承）
+		float rotation = this.getRotation();// 当前方位角度（继承）
 		
-		if(pathType == "Line")			// 直线游动
+		if(pathType == "Line")				// 直线游动
 		{
 			//if(isOutOfBound())
 			{

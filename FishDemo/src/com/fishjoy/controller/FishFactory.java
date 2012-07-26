@@ -42,6 +42,8 @@ public class FishFactory implements GameParas{
 			break;
 		}
 	}
+	
+	
 	public void createCirclePath(Scene mScene, ArrayList<Fish> movingFish, 
 			ArrayList<TiledTextureRegion> FishRegion)
 	{		
@@ -67,6 +69,12 @@ public class FishFactory implements GameParas{
 				// 将生成的鱼都附加到场景第一层——鱼层
 				mScene.getChild(1).attachChild(fish);	
 		}		
+	}
+	
+	/* 游戏开始后的随机游动序列 */
+	public void createRandomPath(Scene mScene, ArrayList<Fish> movingFish, 
+			ArrayList<TiledTextureRegion> FishRegion)
+	{
 	}
 	
 }

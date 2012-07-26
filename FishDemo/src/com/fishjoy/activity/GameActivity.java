@@ -35,7 +35,7 @@ import com.fishjoy.model.GameParas;
 import com.fishjoy.controller.FishFactory;
 import com.fishjoy.controller.TextRegionFactory;
 
-public class GameActivity extends BaseGameActivity implements GameParas
+public class GameActivity extends BaseGameActivity
 {
 	private Engine mEngine;
 	private Camera mCamera;
@@ -54,7 +54,13 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	private ArrayList<TiledTextureRegion> FishRegion = new ArrayList<TiledTextureRegion>();
 	
 	@Override
-	public Engine onLoadEngine() {
+	public Engine onLoadEngine() 
+	{
+		// 获取用户手机的屏幕分辨率
+		GameParas singleInstance = GameParas.getInstance();
+		int CAMERA_WIDTH = singleInstance.getDisplayWidth(this);
+		int CAMERA_HEIGHT = singleInstance.getDisplayHeight(this);
+		
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		mEngine = new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, 
 				new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
@@ -90,7 +96,8 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		
 		// 20秒后开始随机游动序列
 		timeRunning = 0.0f;
-		mScene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() {
+		mScene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() 
+		{ //注册时间监听器
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) 
 			{				
@@ -98,7 +105,11 @@ public class GameActivity extends BaseGameActivity implements GameParas
 				//else if (gameRunning == true ){
 					timeRunning += 1 / 20.0f;
 					if(timeRunning > 20.0f)
-						Log.d("时间", String.valueOf(timeRunning));
+					{
+						//Log.d("时间", String.valueOf(timeRunning));
+						FishFactory.getSingleInstance().createRandomPath(mScene, movingFish, FishRegion);
+						timeRunning = 10.0f;		// 每隔10秒创建一次鱼
+					}
 			}
 		}));
 		
