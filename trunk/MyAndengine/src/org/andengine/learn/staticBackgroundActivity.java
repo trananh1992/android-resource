@@ -22,34 +22,51 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
 
+import com.yinzch.data.DataSet;
+
 import android.util.Log;
+import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 public class staticBackgroundActivity extends BaseGameActivity 
 {
-	private static final int CAMERA_WIDTH = 800;  
-    private static final int CAMERA_HEIGHT = 480;  
+	//private static final int CAMERA_WIDTH = 800;  
+    //private static final int CAMERA_HEIGHT = 480;  
     private Camera mCamera;
+    private static int CAMERA_WIDTH;   
+    private static int CAMERA_HEIGHT;  
     
     private BitmapTextureAtlas backgroundTexture;
     private TextureRegion backgroundRegion;			// 不用TiledTextureRegion
     private TiledTextureRegion buttonRegion;
 
 	@Override
-	public Engine onLoadEngine() {
+	public Engine onLoadEngine() 
+	{
+		Toast.makeText(this, "onLoadEngine", Toast.LENGTH_SHORT).show();
+		
+		DataSet singleInstace = DataSet.getInstance();
+		CAMERA_HEIGHT = singleInstace.getDisplayHeight(this);
+		CAMERA_WIDTH = singleInstace.getDisplayWidth(this);
+        Toast.makeText(this, "手机分辨率为："+String.valueOf(CAMERA_WIDTH)+ "*" + 
+        		String.valueOf(CAMERA_HEIGHT), Toast.LENGTH_SHORT).show();
+        
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, 
 				new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
+	
 	@Override
 	public void onLoadResources() {
+		Toast.makeText(this, "onLoadResources", Toast.LENGTH_SHORT).show();
 		
 		backgroundTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.DEFAULT);  
 		backgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(
 				backgroundTexture, this, "gfx/background.png", 0, 0);  
                 //.createTiledFromAsset(mBitmapTextureAtlas, this, "background.png", 0, 0);
         
-		BitmapTextureAtlas buttonTexture = new BitmapTextureAtlas(256, 256, TextureOptions.DEFAULT);  
+		BitmapTextureAtlas buttonTexture = new BitmapTextureAtlas(512, 512, TextureOptions.DEFAULT);  
         // 通过帧序列块的方式创建button，注意顺序：第一张为正常效果，第二张为按下效果  
         // 1, 2：共1列，有2行  
         buttonRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(  
@@ -60,6 +77,8 @@ public class staticBackgroundActivity extends BaseGameActivity
 
 	@Override
 	public Scene onLoadScene() {
+		Toast.makeText(this, "onLoadScene", Toast.LENGTH_SHORT).show();
+		
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		
         final Scene scene = new Scene();
@@ -68,9 +87,10 @@ public class staticBackgroundActivity extends BaseGameActivity
         scene.setBackgroundEnabled(false);			// 有啥用？
         // 添加一个背景层，在背景层上添加背景精灵
         scene.attachChild(new Entity());
-        scene.getFirstChild().attachChild(new Sprite(10, 0, this.backgroundRegion));
+        scene.getFirstChild().attachChild(new Sprite(0, 0, this.backgroundRegion));
         
-        AnimatedSprite buttonSprite = new AnimatedSprite(480, 300, buttonRegion);
+        // 添加图片精灵
+        AnimatedSprite buttonSprite = new AnimatedSprite(0, 0, buttonRegion);
         scene.getFirstChild().attachChild(buttonSprite);
         //buttonSprite.animate(100);
         Log.i("层数", String.valueOf(scene.getChildCount()));
@@ -89,13 +109,17 @@ public class staticBackgroundActivity extends BaseGameActivity
                         scene.detachChild(buttonSprite);  
                  }  
         });*/  
-        
         return scene;
 	}
 
 	@Override
 	public void onLoadComplete() {
 		// TODO Auto-generated method stub
-		
+		Toast.makeText(this, "onLoadComplete", Toast.LENGTH_SHORT).show();
 	}
 }
+
+
+
+
+
