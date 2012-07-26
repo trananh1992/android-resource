@@ -6,6 +6,8 @@ import java.util.HashMap;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
+import org.anddev.andengine.engine.handler.timer.ITimerCallback;
+import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -39,8 +41,12 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	private Camera mCamera;
 	private Scene mScene;
 	
-	int gamepattern;// 游戏模式
-	private TextureRegion backRegion;
+	private int gamepattern;			// 游戏模式
+	private float timeRunning;			// 游戏进行时间
+	private boolean gamePause = false;
+	private boolean gameRunning = true;
+	
+	private TextureRegion backRegion;	// 背景纹理区域
 	
 	// 游动鱼的列表（鱼超出边界或者被捕获后清除）
 	private ArrayList<Fish> movingFish = new ArrayList<Fish>();
@@ -83,7 +89,18 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		FishFactory.getSingleInstance().createInitialPath(mScene, movingFish, FishRegion, gamepattern);
 		
 		// 20秒后开始随机游动序列
-		
+		timeRunning = 0.0f;
+		mScene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() {
+			@Override
+			public void onTimePassed(final TimerHandler pTimerHandler) 
+			{				
+				//if (gamePause == true){}			// 暂时未添加游戏暂停逻辑
+				//else if (gameRunning == true ){
+					timeRunning += 1 / 20.0f;
+					if(timeRunning > 20.0f)
+						Log.d("时间", String.valueOf(timeRunning));
+			}
+		}));
 		
 		return mScene;
 	}
