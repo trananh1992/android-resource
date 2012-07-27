@@ -21,8 +21,8 @@ public class Fish extends AnimatedSprite {
 		// 必须构造父类
 		super(0, 0, pTiledTextureRegion);
 		// 精灵自身注册更新处理器
-		mPhysicsHandler = new PhysicsHandler(this);
-		this.registerUpdateHandler(mPhysicsHandler);		
+		//mPhysicsHandler = new PhysicsHandler(this);
+		//this.registerUpdateHandler(mPhysicsHandler);		
 	}
 	
 	// 精灵自身注册的更新处理器会调用这个更新
