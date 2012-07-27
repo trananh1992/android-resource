@@ -31,10 +31,10 @@ public class FishFactory implements GameParas{
 	public void createSingleFish(Scene mScene, ArrayList<Fish> movingFish, 
 			ArrayList<TiledTextureRegion> FishRegion)
 	{
-		Fish fish = new Fish(2, FishRegion.get(1).clone());			// 使用第二种鱼
-		fish.setDirection("Left");
-		fish.setY(CAMERA_HEIGHT / 2); 
-		fish.setLinePath();				// 这个设置放在最后，它能真正改变鱼的位置和路线
+		Fish fish = new Fish(2, FishRegion.get(1).clone());		// 使用第二种鱼，Id=2，index=1
+		fish.setY(CAMERA_HEIGHT / 2.0f);
+		fish.setDirection("Left");			// 设置鱼的初始方向
+		fish.setLinePath();					// 这个设置放在最后，它能真正改变鱼的位置和路线
 		
 		fish.animate(100);
 		//fish.setSize(55, 30);
@@ -75,8 +75,8 @@ public class FishFactory implements GameParas{
 				else if(i==2)
 					fish.setY(190);
 				
-				fish.setDirection("Right");
-				fish.setCirclePath();
+				fish.setDirection("Right");		// 设置游动方向
+				fish.setCirclePath();			// 初始化路径
 				
 				fish.animate(100);
 				//fish.setSize(55, 30);

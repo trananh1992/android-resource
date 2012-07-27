@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.fishjoy.model.GameParas;
 import com.fishjoy.controller.FishFactory;
+import com.fishjoy.controller.FishMonitor;
 import com.fishjoy.controller.TextRegionFactory;
 
 public class GameActivity extends BaseGameActivity implements GameParas
@@ -92,25 +93,29 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		mScene.attachChild(new Entity());
 		// 根据不同游戏模式创建不同的初始游动序列（这里暂用简单模式）
 		gamepattern = 1;
-		FishFactory.getSingleInstance().createInitialPath(mScene, movingFish, FishRegion, gamepattern);
+		//FishFactory.getSingleInstance().createInitialPath(mScene, movingFish, FishRegion, gamepattern);
 		
 		// 20秒后开始随机游动序列
 		timeRunning = 0.0f;
 		mScene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() 
-		{ //注册时间监听器
+		{ //注册时间监听器（0.05秒级）
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) 
 			{				
 				//if (gamePause == true){}			// 暂时未添加游戏暂停逻辑
-				//else if (gameRunning == true ){
+				//else if (gameRunning == true )
+				//{
 					timeRunning += 1 / 20.0f;
-					if(timeRunning > 20.0f)
+					if(timeRunning > 20.0f)			// 20秒后开始随机游动序列
 					{
 						//Log.d("时间", String.valueOf(timeRunning));
 						FishFactory.getSingleInstance().createRandomPath(mScene, movingFish, FishRegion);
 						FishFactory.getSingleInstance().createSingleFish(mScene, movingFish, FishRegion);
-						timeRunning = 10.0f;		// 每隔10秒创建一次鱼
-					}
+						timeRunning = 10.0f;		// 每隔10秒创建一次鱼		
+					}	
+					// 监视器：实时更新场景中的鱼（清除超出场景的鱼）
+					FishMonitor.getSingleInstance().onFishMove(movingFish);
+				//}
 			}
 		}));
 		
