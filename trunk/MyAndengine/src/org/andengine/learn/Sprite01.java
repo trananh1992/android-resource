@@ -3,6 +3,7 @@ package org.andengine.learn;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.handler.physics.PhysicsHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -13,6 +14,8 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -20,8 +23,9 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.util.Log;
+import android.widget.Toast;
 
-public class Sprite01 extends BaseGameActivity {
+public class Sprite01 extends BaseGameActivity implements IOnSceneTouchListener{
 
 	private static final int CAMERA_WIDTH = 480;		//照着前一篇文章的例子写就行了，框架都打好了
 	private static final int CAMERA_HEIGHT = 320;
@@ -33,6 +37,9 @@ public class Sprite01 extends BaseGameActivity {
 	// 使用瓦片来设定纹理
 	private TiledTextureRegion mFaceTiledTextureRegion;
 
+	private AnimatedSprite face ;
+	Fish fish;
+	
 	@Override
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -67,12 +74,16 @@ public class Sprite01 extends BaseGameActivity {
 	@Override
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
-
+		
 		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
-
+		
+		int num = scene.getChildCount();
+		Log.i("层数", String.valueOf(num));
+		
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTiledTextureRegion.getWidth()) / 2;
+		Toast.makeText(this, "TextureRegion宽度:"+ this.mFaceTiledTextureRegion.getWidth(), Toast.LENGTH_SHORT).show();
+		final int centerX = (CAMERA_WIDTH - this.mFaceTiledTextureRegion.getWidth()/2) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTiledTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene.
@@ -88,21 +99,71 @@ public class Sprite01 extends BaseGameActivity {
 		// 精灵和相应的TextureRegion相对应
 		// AnimatedSprite是根据时间或者其他因素来触发更换图片资源
 		//final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		final AnimatedSprite face = new AnimatedSprite(centerX, centerY, this.mFaceTiledTextureRegion);
+		face = new AnimatedSprite(centerX, centerY, this.mFaceTiledTextureRegion);
 		face.animate(100);
-		// 将精灵注入场景
-		scene.attachChild(face);
+		PhysicsHandler mPhysicsHandler = new PhysicsHandler(face);
+		face.registerUpdateHandler(mPhysicsHandler);
 		
-		final Line line = new Line(0, 240, 720, 240, 5.0f);
-		line.setColor(1, 0, 0);
+		fish = new Fish(this.mFaceTiledTextureRegion);
+		// 将精灵注入场景
+		scene.attachChild(fish);
+		num = scene.getChildCount();
+		Log.i("层数", String.valueOf(num));
+		//scene.getFirstChild().show();
+		
+		//final Line line = new Line(0, 240, 720, 240, 5.0f);
+		//line.setColor(1, 0, 0);
 		// 初始化scene时不指定层数会出错
-		int num = scene.getChildCount();
-		Log.i(ACTIVITY_SERVICE, String.valueOf(num));
-		scene.getFirstChild().attachChild(line);
+		//scene.getFirstChild().attachChild(line);
+		//num = scene.getChildCount();
+		//Log.i("层数", String.valueOf(num));
+
+		num = scene.getFirstChild().getChildCount();
+		Log.i("层数", String.valueOf(num));
+		
+		scene.setOnSceneTouchListener(this);			// 要实现响应的接口，否则要用匿名类
 		
 		return scene;
 	}
 
+	@Override
+	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) 
+	{
+		/* Removing entities can only be done safely on the UpdateThread.
+		 * Doing it while updating/drawing can
+		 * cause an exception with a suddenly missing entity.
+		 * Alternatively, there is a possibility to run the TouchEvents on the UpdateThread by default, by doing:
+		 * engineOptions.getTouchOptions().setRunOnUpdateThread(true);
+		 * when creating the Engine in onLoadEngine(); */
+		this.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				/* Now it is save to remove the entity! */
+				pScene.detachChild(Sprite01.this.fish);
+				//Sprite01.this.face.detachSelf();
+			}
+		});
+		//pScene.detachChild(Sprite01.this.face);
+		//Sprite01.this.face.detachSelf();
+		int num = pScene.getChildCount();
+		Log.i("层数", String.valueOf(num));
+		//pScene.getFirstChild().detachSelf();
+		//Sprite01.this.fish.detachSelf();
+		num = pScene.getChildCount();
+		Log.i("层数", String.valueOf(num));
+		if(pScene.getFirstChild() instanceof Fish)
+		{
+			Log.i("判断", "我是Fish！");
+		}
+		//pScene.getFirstChild().show();
+		if(pScene.getFirstChild().detachSelf())
+			Log.i("判断", "成功自除Fish！");
+		num = pScene.getChildCount();
+		Log.i("层数", String.valueOf(num));
+		
+		return false;
+	}
+	
 	@Override
 	public void onLoadComplete() {
 
