@@ -5,7 +5,6 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.util.Log;
-
 import com.fishjoy.model.GameParas;
 
 public class Fish extends AnimatedSprite implements GameParas{
@@ -40,8 +39,16 @@ public class Fish extends AnimatedSprite implements GameParas{
 		
 		if(pathType == "Line")				// 直线游动
 		{
-			//if(isOutOfBound())
+			if(isOutOfBound())
 			{
+				/*Log.i("Info>>>", "出界了！");
+				this.runOnUpdateThread(new Runnable() 
+				{
+					@Override
+					public void run() {
+					}
+				});
+				this.detachSelf();*/
 			}
 		}
 		else if(pathType == "Circle")	// 为环型游动的鱼调整方位
@@ -87,20 +94,48 @@ public class Fish extends AnimatedSprite implements GameParas{
 
 	public boolean isOutOfBound()
 	{
-		if(this.getX() < -60)
+		if(	this.getX() > CAMERA_WIDTH  
+				|| this.getX() <= -1 * 128 //this.get_TextureRegion_width(this.Id)
+				|| this.getY() > CAMERA_HEIGHT
+				|| this.getY() < -1 * 128 //this.get_TextureRegion_width(this.Id) 
+				)
+		{
 			return true;
+		}
 		else 
 			return false;
 	}
 	
+	public void setLinePath()
+	{
+		pathType = "Line";
+		//float speed=ModelInformationgetInstance().getFishInformation(name).get_speed();
+		float speed = fishSpeed[this.Id];
+		switch(way)
+		{
+		case 0:
+		{			
+			setPosition(X, Y);	
+			setRotation(0);
+			mPhysicsHandler.setVelocity(-1*speed*(float)Math.cos(0*3.14/180),
+					-1*speed*(float)Math.sin(0*3.14/180));		
+			break;
+		}
+		case 1:
+		{
+			setPosition(X, Y);
+			setRotation(180);
+			mPhysicsHandler.setVelocity(-1*speed*(float)Math.cos(180*3.14/180),
+					-1*speed*(float)Math.sin(180*3.14/180));	
+			break;
+		}
+		};
+	}
+	
+	
 	public void setCirclePath()
 	{
 		pathType = "Circle";
-		Circle_initial();
-	}
-	
-	private void Circle_initial()
-	{
 		switch(way)
 		{
 		case 0:
@@ -140,7 +175,7 @@ public class Fish extends AnimatedSprite implements GameParas{
 		if(dir == "Left")
 		{
 			// 该位置在X轴左侧，距离刚好是TextureRegion的宽度
-			this.X = -60;
+			this.X   = -128;
 			this.way = 1;
 		}
 		else if(dir == "Right")
@@ -148,11 +183,6 @@ public class Fish extends AnimatedSprite implements GameParas{
 			this.way = 0;
 			this.X = CAMERA_WIDTH;
 		}
-	}
-	
-	public void setPathType(String t)
-	{
-		pathType = t;
 	}
 }
 
