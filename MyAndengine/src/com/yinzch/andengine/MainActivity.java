@@ -4,6 +4,7 @@ import org.andengine.learn.BasicActivity;
 import org.andengine.learn.FpsActivity;
 import org.andengine.learn.MovingBallActivity;
 import org.andengine.learn.Sprite01;
+import org.andengine.learn.Sprite02;
 import org.andengine.learn.TankActivity;
 import org.andengine.learn.staticBackgroundActivity;
 
@@ -22,7 +23,7 @@ public class MainActivity extends ListActivity {
     	super.onCreate(savedInstanceState);
         // 不能再设置布局
         //setContentView(R.layout.activity_main);
-        String[] items = {"Basic Activity", "FPS Activity", "Sprite 01", "动画精灵：移动的小球",
+        String[] items = {"Basic Activity", "FPS Activity", "Sprite 01", "Sprite 02", "动画精灵：移动的小球",
         		"静态图片背景", "移动的坦克", "划线"};
         setListAdapter(new ArrayAdapter<String>(this,
         		android.R.layout.simple_list_item_1, items));
@@ -49,19 +50,23 @@ public class MainActivity extends ListActivity {
     		startActivity(intent);
     		break;
     	case 3:
+    		intent = new Intent(MainActivity.this, Sprite02.class);
+    		startActivity(intent);
+    		break;
+    	case 4:
     		Toast.makeText(MainActivity.this, "TiledTextureRegion", Toast.LENGTH_LONG).show();
     		intent = new Intent(MainActivity.this, MovingBallActivity.class);
     		startActivity(intent);
     		break;
-    	case 4:
+    	case 5:
     		intent = new Intent(MainActivity.this, staticBackgroundActivity.class);
     		startActivity(intent);
     		break;
-    	case 5:
+    	case 6:
     		intent = new Intent(MainActivity.this, TankActivity.class);
     		startActivity(intent);
     		break;
-    	case 6:
+    	case 7:
     		intent = new Intent(MainActivity.this, LineActivity.class);
     		startActivity(intent);
     		break;

@@ -50,6 +50,10 @@
             android:name=".LineActivity"
             android:label="@string/title_activity_line" >
         </activity>
+        <activity
+            android:name="org.andengine.learn.Sprite02"
+            android:label="@string/title_activity_sprite02" >
+        </activity>
     </application>
 
 </manifest>

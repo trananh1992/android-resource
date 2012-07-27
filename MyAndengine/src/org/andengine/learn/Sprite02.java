@@ -1,5 +1,6 @@
 package org.andengine.learn;
 
+
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -7,6 +8,7 @@ import org.anddev.andengine.engine.handler.physics.PhysicsHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
@@ -25,7 +27,7 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import android.util.Log;
 import android.widget.Toast;
 
-public class Sprite01 extends BaseGameActivity implements IOnSceneTouchListener{
+public class Sprite02 extends BaseGameActivity implements IOnSceneTouchListener{
 
 	private static final int CAMERA_WIDTH = 480;		//照着前一篇文章的例子写就行了，框架都打好了
 	private static final int CAMERA_HEIGHT = 320;
@@ -81,43 +83,16 @@ public class Sprite01 extends BaseGameActivity implements IOnSceneTouchListener{
 		int num = scene.getChildCount();
 		Log.i("层数", String.valueOf(num));
 		
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		Toast.makeText(this, "TextureRegion宽度:"+ this.mFaceTiledTextureRegion.getWidth(), Toast.LENGTH_SHORT).show();
-		final int centerX = (CAMERA_WIDTH - this.mFaceTiledTextureRegion.getWidth()/2) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTiledTextureRegion.getHeight()) / 2;
-
-		/* Create the face and add it to the scene.
-		 * Sprite:精灵是一个矩形图形
-		 * （继承于RectangularShape， 与Rectangular一样）并且是TextureRegion的载体，
-		 * 可以这样认为RectangularShape为精灵提供了矩形， 
-		 * TextureRegion为精灵提供了纹理映射，Texture为提供了覆盖物， 
-		 * 进行画面渲染时AndEngine内部会调用TextureRegion中的Texture引用，但也只允许如此调用
-		 * A TextureRegion defines a rectangle on the Texture. 
-		 * A TextureRegion is used by Sprites to let the system know what part of 
-		 *   the big Texture the Sprite is showing
-		*/
-		// 精灵和相应的TextureRegion相对应
-		// AnimatedSprite是根据时间或者其他因素来触发更换图片资源
-		//final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		face = new AnimatedSprite(centerX, centerY, this.mFaceTiledTextureRegion);
-		face.animate(100);
-		PhysicsHandler mPhysicsHandler = new PhysicsHandler(face);
-		face.registerUpdateHandler(mPhysicsHandler);
+		// 先加一个底片
+		scene.attachChild(new Entity());
 		
 		fish = new Fish(this.mFaceTiledTextureRegion);
 		// 将精灵注入场景
-		scene.attachChild(fish);
+		scene.getFirstChild().attachChild(fish);
+		
 		num = scene.getChildCount();
 		Log.i("层数", String.valueOf(num));
-		//scene.getFirstChild().show();
 		
-		//final Line line = new Line(0, 240, 720, 240, 5.0f);
-		//line.setColor(1, 0, 0);
-		// 初始化scene时不指定层数会出错
-		//scene.getFirstChild().attachChild(line);
-		//num = scene.getChildCount();
-		//Log.i("层数", String.valueOf(num));
-
 		num = scene.getFirstChild().getChildCount();
 		Log.i("层数", String.valueOf(num));
 		
@@ -137,10 +112,11 @@ public class Sprite01 extends BaseGameActivity implements IOnSceneTouchListener{
 		 * when creating the Engine in onLoadEngine(); */
 		this.runOnUpdateThread(new Runnable() {
 			@Override
+			// 在这个线程中无论怎样删除都不会真正除去精灵，但能是精灵不在Update且不可见，这样后续可以再次删除
 			public void run() {
 				/* Now it is save to remove the entity! */
-				pScene.detachChild(Sprite01.this.fish);		// 可以让fish不在Update，就是好像不能删除？
-				//Sprite01.this.face.detachSelf();
+				//pScene.getFirstChild().detachChild(Sprite02.this.fish);		// 可以让fish不在Update，就是好像不能删除？
+				Sprite02.this.fish.detachSelf();
 			}
 		});
 		//pScene.detachChild(Sprite01.this.fish);
@@ -149,19 +125,25 @@ public class Sprite01 extends BaseGameActivity implements IOnSceneTouchListener{
 		Log.i("层数", String.valueOf(num));
 		//pScene.getFirstChild().detachSelf();
 		//Sprite01.this.fish.detachSelf();
-		num = pScene.getChildCount();
-		Log.i("层数", String.valueOf(num));
+		num = pScene.getFirstChild().getChildCount();
+		Log.i("底片上的孩子：", String.valueOf(num));
 		//if(pScene.getFirstChild() instanceof Sprite) // False
 		if(pScene.getFirstChild() instanceof Fish)	   // True
 		{
-			Log.i("判断", "我是Fish！");
+			Log.i("判断底片", "我是Fish！");
 		}
 
+		if(pScene.getFirstChild().getFirstChild() instanceof AnimatedSprite)	   // True
+		{
+			Log.i("判断底片", "我是Fish！");
+		}
+		
 		//if(pScene.getFirstChild().detachSelf())
-		//if(pScene.detachChild(Sprite01.this.fish))	
-			Log.i("判断", "成功自除Fish！");
-		num = pScene.getChildCount();
-		Log.i("层数", String.valueOf(num));
+		//if(pScene.getFirstChild().detachChild(Sprite02.this.fish))
+		if(Sprite02.this.fish.detachSelf())
+			Log.i("判断底片", "成功除去Fish！");
+		num = pScene.getFirstChild().getChildCount();
+		Log.i("底片上的孩子：", String.valueOf(num));
 		
 		return false;
 	}
