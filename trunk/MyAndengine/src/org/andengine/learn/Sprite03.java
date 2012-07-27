@@ -34,6 +34,8 @@ public class Sprite03 extends BaseGameActivity{
 
 	private Camera mCamera;
 	private Scene mScene;
+	private static Scene myScene;
+	
 	private BitmapTextureAtlas mBitmapTextureAtlas;		// 声明纹理用于加载资源
 
 	private TextureRegion mFaceTextureRegion;
@@ -70,16 +72,17 @@ public class Sprite03 extends BaseGameActivity{
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		
+		mScene = new Scene();
 		mScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 		// 先加一个底片
 		mScene.attachChild(new Entity());
 		fish = new Fish(this.mFaceTiledTextureRegion);
 		// 将精灵注入场景
 		mScene.getFirstChild().attachChild(fish);
-		int num = mScene.getChildCount();
-		Log.i("层数", String.valueOf(num));
+		int num = mScene.getFirstChild().getChildCount();
+		Log.i("第一层的孩子数：", String.valueOf(num));
 		
-		this.mScene.registerUpdateHandler(new IUpdateHandler()		// 在匿名类里，this就是他自己而不是外部类实例
+		/*this.mScene.registerUpdateHandler(new IUpdateHandler()		// 在匿名类里，this就是他自己而不是外部类实例
 		{
 			@Override
 			public void reset()
@@ -91,16 +94,26 @@ public class Sprite03 extends BaseGameActivity{
 			@Override
 			public void onUpdate(float pSecondsElapsed)
 			{
-				Log.i("提示", "场景更新");
-				if(FishMonitor.getInstance().moveMonite(fish) == true)
-				{
-					Log.i("场景提示", "在onUpdate中成功detach！");
-					reset();
-				}
+				//Log.i("提示", "场景更新");
+				//if(FishMonitor.getInstance().moveMonite(fish) == true)	
+					// Scene.registerUpdateHandler.onUpdate中删除一次精灵就可以了，runOnUpdateThread要铲除两次！
+					// 而Sprite.onManageUpdate()中无法删除！
+//				{
+//					Log.i("场景提示", "在onUpdate中成功detach！");
+//					int num = mScene.getFirstChild().getChildCount();
+//					Log.i("第一层的孩子数：", String.valueOf(num));
+//					reset();
+//				}
 			}
-		});
-		
+		});*/
+		myScene = mScene;
 		return mScene;
+	}
+	
+	public static void showKids()
+	{
+		int num = myScene.getFirstChild().getChildCount();
+		Log.i("第一层的孩子数：", String.valueOf(num));
 	}
 	
 	@Override
