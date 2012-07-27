@@ -19,10 +19,13 @@ public class Fish extends AnimatedSprite {
 	public Fish(TiledTextureRegion pTiledTextureRegion) 
 	{
 		// 必须构造父类
-		super(0, 0, pTiledTextureRegion);
+		super(0, 150, pTiledTextureRegion);
 		// 精灵自身注册更新处理器
-		//mPhysicsHandler = new PhysicsHandler(this);
-		//this.registerUpdateHandler(mPhysicsHandler);		
+		mPhysicsHandler = new PhysicsHandler(this);
+		this.registerUpdateHandler(mPhysicsHandler);
+		float VelocityX = 40;
+		float VelocityY = 40;
+		mPhysicsHandler.setVelocity(-VelocityX, -VelocityY);
 	}
 	
 	// 错误：精灵自身注册的更新处理器会调用这个更新
