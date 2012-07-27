@@ -14,7 +14,8 @@ public class Fish extends AnimatedSprite implements GameParas{
 	String direction;						// 游动方向：RIGHT/LEFT/RANDOM
 	String pathType;						// 路径类型:Circle/Line
 	
-	int way, X, Y;
+	int way;			// 辅助变量：标记鱼的游动方向
+	float X, Y;			// 鱼的初始位置
 	
 	public Fish(int fishId,TiledTextureRegion pTiledTextureRegion) 
 	{
@@ -41,14 +42,6 @@ public class Fish extends AnimatedSprite implements GameParas{
 		{
 			if(isOutOfBound())
 			{
-				/*Log.i("Info>>>", "出界了！");
-				this.runOnUpdateThread(new Runnable() 
-				{
-					@Override
-					public void run() {
-					}
-				});
-				this.detachSelf();*/
 			}
 		}
 		else if(pathType == "Circle")	// 为环型游动的鱼调整方位
@@ -95,17 +88,16 @@ public class Fish extends AnimatedSprite implements GameParas{
 	public boolean isOutOfBound()
 	{
 		if(	this.getX() > CAMERA_WIDTH  
-				|| this.getX() <= -1 * 128 //this.get_TextureRegion_width(this.Id)
+				|| this.getX() < -1 * fishRegion[this.Id-1][0]
 				|| this.getY() > CAMERA_HEIGHT
-				|| this.getY() < -1 * 128 //this.get_TextureRegion_width(this.Id) 
-				)
-		{
+				|| this.getY() < -1 * fishRegion[this.Id-1][1]
+		    )
 			return true;
-		}
 		else 
 			return false;
 	}
 	
+	// 初始化直线路径
 	public void setLinePath()
 	{
 		pathType = "Line";
@@ -132,7 +124,7 @@ public class Fish extends AnimatedSprite implements GameParas{
 		};
 	}
 	
-	
+	// 初始化圆形路径
 	public void setCirclePath()
 	{
 		pathType = "Circle";
@@ -158,12 +150,12 @@ public class Fish extends AnimatedSprite implements GameParas{
 		};
 	}
 	
-	public void setY(int p_y)
+	public void setY(float p_y)
 	{
 		this.Y = p_y;
 	}
 	
-	public void setX(int p_x)
+	public void setX(float p_x)
 	{
 		this.X = p_x;
 	}
@@ -175,7 +167,8 @@ public class Fish extends AnimatedSprite implements GameParas{
 		if(dir == "Left")
 		{
 			// 该位置在X轴左侧，距离刚好是TextureRegion的宽度
-			this.X   = -128;
+			// 这个X只是初始值，Y直需要另外指定
+			this.X   = -1 * fishRegion[this.Id-1][0];
 			this.way = 1;
 		}
 		else if(dir == "Right")
