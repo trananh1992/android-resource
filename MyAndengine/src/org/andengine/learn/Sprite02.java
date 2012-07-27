@@ -133,17 +133,22 @@ public class Sprite02 extends BaseGameActivity implements IOnSceneTouchListener{
 			Log.i("判断底片", "我是Fish！");
 		}
 
-		if(pScene.getFirstChild().getFirstChild() instanceof AnimatedSprite)	   // True
+		if(pScene.getFirstChild().getFirstChild() instanceof Fish)	   // True
 		{
-			Log.i("判断底片", "我是Fish！");
+			Log.i("判断底片的孩子", "我是Fish！");
+			Sprite02.this.fish.show();
 		}
 		
 		//if(pScene.getFirstChild().detachSelf())
 		//if(pScene.getFirstChild().detachChild(Sprite02.this.fish))
+		// 这次删除真正从场景中除去了fish，再次删除会出错！
 		if(Sprite02.this.fish.detachSelf())
 			Log.i("判断底片", "成功除去Fish！");
 		num = pScene.getFirstChild().getChildCount();
 		Log.i("底片上的孩子：", String.valueOf(num));
+		// 但是fish这个对象应该任然存在：
+		// 看这句是否出错就知道是否真的销毁了Fish
+		Sprite02.this.fish.show();
 		
 		return false;
 	}
