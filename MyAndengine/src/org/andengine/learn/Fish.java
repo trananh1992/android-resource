@@ -25,7 +25,7 @@ public class Fish extends AnimatedSprite {
 		this.registerUpdateHandler(mPhysicsHandler);
 		float VelocityX = 40;
 		float VelocityY = 40;
-		mPhysicsHandler.setVelocity(-VelocityX, -VelocityY);
+		mPhysicsHandler.setVelocity(VelocityX, 0);
 	}
 	
 	// 错误：精灵自身注册的更新处理器会调用这个更新
@@ -35,6 +35,12 @@ public class Fish extends AnimatedSprite {
 	{
 		Log.i("提示", "Fish.onManagedUpdate()");	// 每时每刻都在调用
 		super.onManagedUpdate(pSecondsElapsed);
+		if(this.getX() > 240)
+		{
+			Log.i("Fish提示：", "准备在onManagedUpdate中子宫！");
+			this.detachSelf();
+			Sprite03.showKids();
+		}
 	}
 
 	public void show()
