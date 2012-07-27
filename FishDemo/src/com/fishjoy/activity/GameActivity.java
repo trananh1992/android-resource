@@ -35,7 +35,7 @@ import com.fishjoy.model.GameParas;
 import com.fishjoy.controller.FishFactory;
 import com.fishjoy.controller.TextRegionFactory;
 
-public class GameActivity extends BaseGameActivity
+public class GameActivity extends BaseGameActivity implements GameParas
 {
 	private Engine mEngine;
 	private Camera mCamera;
@@ -56,11 +56,6 @@ public class GameActivity extends BaseGameActivity
 	@Override
 	public Engine onLoadEngine() 
 	{
-		// 获取用户手机的屏幕分辨率
-		GameParas singleInstance = GameParas.getInstance();
-		int CAMERA_WIDTH = singleInstance.getDisplayWidth(this);
-		int CAMERA_HEIGHT = singleInstance.getDisplayHeight(this);
-		
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		mEngine = new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, 
 				new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
@@ -75,6 +70,11 @@ public class GameActivity extends BaseGameActivity
 	
 		// 由工厂为5种鱼创建TiledTextregion（纹理大小都是128*256）
 		TextRegionFactory.getSingleInstance().CreateRegionForFish(FishRegion, mEngine, this);
+		for(int i=0; i < FishRegion.size(); i++)
+		{
+			Toast.makeText(this, "TextureRegion宽度:"+ FishRegion.get(i).getWidth()+
+					"高度："+FishRegion.get(i).getHeight(), Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
@@ -108,6 +108,7 @@ public class GameActivity extends BaseGameActivity
 					{
 						//Log.d("时间", String.valueOf(timeRunning));
 						FishFactory.getSingleInstance().createRandomPath(mScene, movingFish, FishRegion);
+						FishFactory.getSingleInstance().createSingleFish(mScene, movingFish, FishRegion);
 						timeRunning = 10.0f;		// 每隔10秒创建一次鱼
 					}
 			}
@@ -120,5 +121,6 @@ public class GameActivity extends BaseGameActivity
 	public void onLoadComplete() {
 		//Toast.makeText(GameActivity.this, "我们走完了", Toast.LENGTH_LONG).show();
 	}
+	
 }
 

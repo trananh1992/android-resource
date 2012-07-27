@@ -5,35 +5,21 @@ import android.util.DisplayMetrics;
 
 // 系统中用到的各种常量
 
-public class GameParas
+public interface GameParas
 {
 	public static final int FishKindsNum = 5;		// 鱼的种类
-	private static GameParas singleInstance = null; // 单实例
-	
-	public static GameParas getInstance()
-	{
-		if(singleInstance == null)
-			singleInstance = new GameParas();
-		return singleInstance;
-	}
+	public static final int CAMERA_WIDTH = 800;
+	public static final int CAMERA_HEIGHT = 480;
+	public static final float fishSpeed[] = {40, 50, 60, 70, 80};
+	public static final float fishRegion[][] = {{40, 50}, {60, 70}, {128}};
 	
 	// 获取用户手机的屏幕分辨率
-	public int getDisplayWidth(Activity act)
+	/*	public int getDisplayWidth(Activity act)
 	{
 		DisplayMetrics dm = new DisplayMetrics();
         act.getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         return width;
-	}
-	
-	public int getDisplayHeight(Activity act)
-	{
-		DisplayMetrics dm = new DisplayMetrics();
-        act.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        int height = dm.heightPixels;
-        return height;
-	}
-
+	}*/
 }
 
