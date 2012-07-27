@@ -25,7 +25,8 @@ public class Fish extends AnimatedSprite {
 		//this.registerUpdateHandler(mPhysicsHandler);		
 	}
 	
-	// 精灵自身注册的更新处理器会调用这个更新
+	// 错误：精灵自身注册的更新处理器会调用这个更新
+	// 只要fish在场景冲，就会调用，不管是否注册
 	@Override
 	protected void onManagedUpdate(final float pSecondsElapsed)
 	{
