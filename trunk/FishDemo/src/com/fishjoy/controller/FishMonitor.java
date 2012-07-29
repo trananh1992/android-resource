@@ -23,7 +23,7 @@ public class FishMonitor implements GameParas{
 	// 注册监视器，监听鱼是否超出边界
 	public void onFishMove(ArrayList<Fish> movingFish)
 	{
-		Log.i("检测", "鱼是否出界");
+		//Log.i("检测", "鱼是否出界");
 		for(int i = 0; i < movingFish.size(); i++)
 		{
 			Fish fish = movingFish.get(i);
