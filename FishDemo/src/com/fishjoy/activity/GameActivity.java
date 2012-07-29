@@ -71,11 +71,11 @@ public class GameActivity extends BaseGameActivity implements GameParas
 	
 		// 由工厂为5种鱼创建TiledTextregion（纹理大小都是128*256）
 		TextRegionFactory.getSingleInstance().CreateRegionForFish(FishRegion, mEngine, this);
-		for(int i=0; i < FishRegion.size(); i++)
+		/*for(int i=0; i < FishRegion.size(); i++)
 		{
 			Toast.makeText(this, "TextureRegion宽度:"+ FishRegion.get(i).getWidth()+
 					"高度："+FishRegion.get(i).getHeight(), Toast.LENGTH_SHORT).show();
-		}
+		}*/
 	}
 
 	@Override
@@ -97,6 +97,7 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		
 		// 20秒后开始随机游动序列
 		timeRunning = 0.0f;
+		// 注册业务到业务线程
 		mScene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() 
 		{ //注册时间监听器（0.05秒级）
 			@Override
@@ -106,15 +107,15 @@ public class GameActivity extends BaseGameActivity implements GameParas
 				//else if (gameRunning == true )
 				//{
 					timeRunning += 1 / 20.0f;
-					if(timeRunning > 20.0f)			// 20秒后开始随机游动序列
+					if(timeRunning > 10.0f)			// 20秒后开始随机游动序列
 					{
 						//Log.d("时间", String.valueOf(timeRunning));
-						FishFactory.getSingleInstance().createRandomPath(mScene, movingFish, FishRegion);
-						FishFactory.getSingleInstance().createSingleFish(mScene, movingFish, FishRegion);
-						timeRunning = 10.0f;		// 每隔10秒创建一次鱼		
+						FishFactory.getSingleInstance().createRandomFish(mScene, movingFish, FishRegion);
+						//timeRunning = 10.0f;		// 每隔10秒创建一次鱼		
 					}	
 					// 监视器：实时更新场景中的鱼（清除超出场景的鱼）
-					FishMonitor.getSingleInstance().onFishMove(movingFish);
+					if(movingFish.size() > 0)
+						FishMonitor.getSingleInstance().onFishMove(movingFish);
 				//}
 			}
 		}));
