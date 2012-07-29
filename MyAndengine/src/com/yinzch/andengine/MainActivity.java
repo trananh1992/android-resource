@@ -1,12 +1,15 @@
 package com.yinzch.andengine;
 
 import org.andengine.learn.BasicActivity;
+import org.andengine.learn.EntityModifier;
 import org.andengine.learn.FpsActivity;
 import org.andengine.learn.MovingBallActivity;
+import org.andengine.learn.PathActivity;
 import org.andengine.learn.Sprite01;
 import org.andengine.learn.Sprite02;
 import org.andengine.learn.Sprite03;
 import org.andengine.learn.TankActivity;
+import org.andengine.learn.TankDrag;
 import org.andengine.learn.staticBackgroundActivity;
 
 import android.os.Bundle;
@@ -25,7 +28,7 @@ public class MainActivity extends ListActivity {
         // 不能再设置布局
         //setContentView(R.layout.activity_main);
         String[] items = {"Basic Activity", "FPS Activity", "Sprite 01", "Sprite 02", "动画精灵：移动的小球",
-        		"静态图片背景", "移动的坦克", "划线", "Sprite 03"};
+        		"静态图片背景", "移动的坦克", "划线", "Sprite 03", "拖曳坦克", "Modifier更新实体", "路径精灵"};
         setListAdapter(new ArrayAdapter<String>(this,
         		android.R.layout.simple_list_item_1, items));
         getListView().setTextFilterEnabled(true);
@@ -75,7 +78,18 @@ public class MainActivity extends ListActivity {
     		intent = new Intent(MainActivity.this, Sprite03.class);
     		startActivity(intent);
     		break;
-    		
+    	case 9:
+    		intent = new Intent(MainActivity.this, TankDrag.class);
+    		startActivity(intent);
+    		break;
+    	case 10:
+    		intent = new Intent(MainActivity.this, EntityModifier.class);
+    		startActivity(intent);
+    		break;
+    	case 11:
+    		intent = new Intent(MainActivity.this, PathActivity.class);
+    		startActivity(intent);
+    		break;
     	default:
     			break;
     	}

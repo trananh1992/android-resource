@@ -112,7 +112,7 @@ public class Sprite02 extends BaseGameActivity implements IOnSceneTouchListener{
 		 * when creating the Engine in onLoadEngine(); */
 		this.runOnUpdateThread(new Runnable() {
 			@Override
-			// 在这个线程中无论怎样删除都不会真正除去精灵，但能是精灵不在Update且不可见，这样后续可以再次删除
+			// 在这个线程中无论怎样删除都不会真正除去精灵，但能是精灵不再Update且不可见，这样后续可以再次删除
 			public void run() {
 				/* Now it is save to remove the entity! */
 				//pScene.getFirstChild().detachChild(Sprite02.this.fish);		// 可以让fish不在Update，就是好像不能删除？
