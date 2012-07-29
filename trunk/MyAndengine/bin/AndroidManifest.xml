@@ -58,6 +58,18 @@
             android:name="org.andengine.learn.Sprite03"
             android:label="@string/title_activity_sprite03" >
         </activity>
+        <activity
+            android:name="org.andengine.learn.TankDrag"
+            android:label="@string/title_activity_tank_drag" >
+        </activity>
+        <activity
+            android:name="org.andengine.learn.EntityModifier"
+            android:label="@string/title_activity_entity_modifier" >
+        </activity>
+        <activity
+            android:name="org.andengine.learn.PathActivity"
+            android:label="@string/title_activity_path" >
+        </activity>
     </application>
 
 </manifest>
