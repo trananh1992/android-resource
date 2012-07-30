@@ -91,15 +91,17 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		
 		// 鱼的活动层 ：第1层
 		mScene.attachChild(new Entity());
+		
 		// 根据不同游戏模式创建不同的初始游动序列（这里暂用简单模式）
 		gamepattern = 1;
-		//FishFactory.getSingleInstance().createInitialPath(mScene, movingFish, FishRegion, gamepattern);
+		FishFactory.getSingleInstance().createInitialPath(mScene, movingFish, FishRegion, gamepattern);
 		
 		// 20秒后开始随机游动序列
 		timeRunning = 0.0f;
 		// 注册业务到业务线程
 		mScene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() 
 		{ //注册时间监听器（0.05秒级）
+			private float timeSlaps = 0.0f;
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) 
 			{				
@@ -107,11 +109,15 @@ public class GameActivity extends BaseGameActivity implements GameParas
 				//else if (gameRunning == true )
 				//{
 					timeRunning += 1 / 20.0f;
-					if(timeRunning > 10.0f)			// 20秒后开始随机游动序列
+					timeSlaps   += 1 / 20.0f;
+					if(timeRunning > 10.0f)			// 10秒后开始随机游动序列
 					{
-						//Log.d("时间", String.valueOf(timeRunning));
 						FishFactory.getSingleInstance().createRandomFish(mScene, movingFish, FishRegion);
-						//timeRunning = 10.0f;		// 每隔10秒创建一次鱼		
+						if(timeSlaps > 10.0f)
+						{   // 每隔10秒创建一次鱼群
+							FishFactory.getSingleInstance().createFishGroup(mScene, movingFish, FishRegion);
+							timeSlaps = 0.0f;				
+						}			
 					}	
 					// 监视器：实时更新场景中的鱼（清除超出场景的鱼）
 					if(movingFish.size() > 0)

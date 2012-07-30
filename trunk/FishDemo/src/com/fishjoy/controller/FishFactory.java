@@ -45,7 +45,6 @@ public class FishFactory implements GameParas{
 		}
 	}
 	
-	
 	public void createCirclePath(Scene mScene, ArrayList<Fish> movingFish, 
 			ArrayList<TiledTextureRegion> FishRegion)
 	{		
@@ -54,11 +53,11 @@ public class FishFactory implements GameParas{
 			// 使用了第一种鱼,Id == 0
 				Fish fish = new Fish(0, FishRegion.get(0).clone());
 				if(i==0)
-					fish.setY(70);
+					fish.setp_Y(70);
 				else if(i==1)
-					fish.setY(130);
+					fish.setp_Y(130);
 				else if(i==2)
-					fish.setY(190);
+					fish.setp_Y(190);
 				
 				fish.setDirection("Right");		// 设置游动方向
 				fish.setCirclePath();			// 初始化路径
@@ -72,32 +71,71 @@ public class FishFactory implements GameParas{
 		}		
 	}
 	
+	
+	// 创建鱼群
+	public void createFishGroup(Scene mScene, ArrayList<Fish> movingFish, 
+			ArrayList<TiledTextureRegion> FishRegion)
+	{
+		int randDir = Math.abs(rand.nextInt()) % 2;
+		float group_Y = Math.abs(rand.nextFloat())*(CAMERA_HEIGHT);
+		int num = Math.abs(rand.nextInt()) % 5 +2;
+		
+		for(int i = 0; i < num; i++)
+		{
+			Fish fish = new Fish(0, FishRegion.get(0).clone());		
+			fish.setDirection(fishDir[randDir]);					// 随机值：鱼的游动方向
+			fish.setGroupPath(i, group_Y);									// 这个设置放在最后，它能真正改变鱼的位置和路线
+			
+			fish.animate(100);
+			movingFish.add(fish);
+			mScene.getChild(1).attachChild(fish);
+		}
+	}	
+	
+
+	// 随机创建鱼
+	
 	/* 游戏开始后的随机游动序列 */
 	public void createRandomFish(Scene mScene, ArrayList<Fish> movingFish, 
 			ArrayList<TiledTextureRegion> FishRegion)
 	{
 		if(movingFish.size() < MaxFishNum)
 		{
-			for(int i = 0; i < MaxFishNum - movingFish.size(); i++)		// 补充场景中的鱼
+			for(int i = 0; i < MaxFishNum-movingFish.size(); i++)		// 补充场景中的鱼
 			{
-				//int type = Math.abs(rand.nextInt()) % 3;
-				int type = 2;
+				int type = Math.abs(rand.nextInt()) % 3;
 				switch(type)
 				{
 				case 0:			
 					createFishInLine(mScene, movingFish, FishRegion);	// 直线游动
 					break;
-				case 1:			// 圆形游动
+				case 1:			
+					createFishInCircle(mScene, movingFish, FishRegion);	// 圆形游动
 					break;
 				case 2:
 					createFishInCurve(mScene, movingFish, FishRegion);	// 曲线游动
 					break;
-					
 				}
 			}
 		}
 	}
 
+	// 随机生成一条圆形游动的鱼
+	public void createFishInCircle(Scene mScene, ArrayList<Fish> movingFish, 
+			ArrayList<TiledTextureRegion> FishRegion)
+	{
+		int Id = Math.abs(rand.nextInt()) % 5;
+		Fish fish = new Fish(Id, FishRegion.get(Id).clone());
+		
+		int randDir = Math.abs(rand.nextInt()) % 2;
+		fish.setDirection(fishDir[randDir]);			// 随机值：鱼的游动方向
+		fish.setCirclePath();							// 初始化路径
+		
+		fish.animate(100);
+		movingFish.add(fish);
+		mScene.getChild(1).attachChild(fish);	
+	}
+	
 	// 随机生成一条直线游动的鱼
 	public void createFishInCurve(Scene mScene, ArrayList<Fish> movingFish, 
 			ArrayList<TiledTextureRegion> FishRegion)
@@ -105,9 +143,9 @@ public class FishFactory implements GameParas{
 		int Id = Math.abs(rand.nextInt()) % 5;
 		Fish fish = new Fish(Id, FishRegion.get(Id).clone());
 		
-		fish.setY(CAMERA_HEIGHT / 2);
-		fish.setDirection("Left");				// 随机值：鱼的游动方向
-		fish.setCurvePath();					// 这个设置放在最后，它能真正改变鱼的位置和路线
+		int randDir = Math.abs(rand.nextInt()) % 2;
+		fish.setDirection(fishDir[randDir]);			// 随机值：鱼的游动方向
+		fish.setCurvePath();							// 这个设置放在最后，它能真正改变鱼的位置和路线
 		
 		fish.animate(100);
 		movingFish.add(fish);
@@ -121,7 +159,8 @@ public class FishFactory implements GameParas{
 		int Id = Math.abs(rand.nextInt()) % 5;
 		Fish fish = new Fish(Id, FishRegion.get(Id).clone());
 		
-		fish.setDirection(getRandomDirection());	// 随机值：鱼的游动方向
+		int randDir = Math.abs(rand.nextInt()) % 4;
+		fish.setDirection(fishDir[randDir]);		// 随机值：鱼的游动方向
 		fish.setLinePath();							// 这个设置放在最后，它能真正改变鱼的位置和路线
 		
 		fish.animate(100);
@@ -130,11 +169,6 @@ public class FishFactory implements GameParas{
 		mScene.getChild(1).attachChild(fish);	
 	}
 	
-	public String getRandomDirection()
-	{
-		int randDir = Math.abs(rand.nextInt()) % 4;
-		return fishDir[randDir];
-	}
 }
 
 
