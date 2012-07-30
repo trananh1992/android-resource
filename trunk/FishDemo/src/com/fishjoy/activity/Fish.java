@@ -89,46 +89,19 @@ public class Fish extends AnimatedSprite implements GameParas{
 		}
 		else if(pathType == "Curve")
 		{
-			switch(direction)
+			if((direction==0) && (x>CAMERA_WIDTH/4) || (direction == 1) && (x<CAMERA_WIDTH/4*3))
 			{
-			case 0:		// 从左向右
-			{
-				if(rotation<=-180)
-				{
-					mPhysicsHandler.setAngularVelocity(0);
-					mPhysicsHandler.setVelocity(40, 0);
-					setRotation(-180);						
-				}
-				else if(x>(CAMERA_WIDTH/2) || (x<(CAMERA_WIDTH/2) && y<Y))
-				{
-					 mPhysicsHandler.setAngularVelocity(-45);
-					 mPhysicsHandler.setVelocity((float)Math.cos((180-rotation)*3.14/180)*40, -1*(float)Math.sin((180-rotation)*3.14/180)*40);
-				}
-				break;
-			}
-			case 1:		// 从右到左
-			{
-				if(rotation>=360)
-				{
-					mPhysicsHandler.setAngularVelocity(0);
-					mPhysicsHandler.setVelocity(-40, 0);
-					setRotation(360);								
-				}
-				else if(x<(CAMERA_WIDTH/4 * 3))
-				{
-					mPhysicsHandler.setAccelerationY(5);			// 竖直方向加速度=40
+					mPhysicsHandler.setAccelerationY(5);			// 竖直方向加速度
 					//mPhysicsHandler.setVelocity(-1*(float)Math.cos(rotation*3.14/180)*80, -1*(float)Math.sin(rotation*3.14/180)*80);
 					float v_Y = mPhysicsHandler.getVelocityY();
 					float v_X = mPhysicsHandler.getVelocityX();
 					//Log.i("提示", String.valueOf(v_Y / v_X));
 					this.setRotation((float) (Math.atan(v_Y / v_X) * 180 / Math.PI));
-				}
-				else if(x<(CAMERA_WIDTH/2))
-					mPhysicsHandler.setAccelerationY(0);
-				
-				break;
 			}
-			};
+			else if((direction==0) && (x>CAMERA_WIDTH/2) ||(direction == 1) && (x<CAMERA_WIDTH/2))
+			{
+				mPhysicsHandler.setAccelerationY(0);			// 直线游动
+			}
 		}
 	}
 
@@ -266,8 +239,8 @@ public class Fish extends AnimatedSprite implements GameParas{
 		{
 			this.direction = 1;
 			this.X = CAMERA_WIDTH;
-			//float p_Y = Math.abs(rand.nextFloat()) * CAMERA_HEIGHT;	随机获取Y坐标
-			//this.setY(p_Y);
+			float p_Y = Math.abs(rand.nextFloat()) * CAMERA_HEIGHT;		//随机获取Y坐标
+			this.setY(p_Y);
 			Log.i("游动方向", "从右向左");
 		}
 		else if(dir == "Up")		// 从上到下
