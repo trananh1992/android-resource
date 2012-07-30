@@ -18,8 +18,10 @@ public class Fish extends AnimatedSprite implements GameParas{
 	
 	int direction;						// 辅助变量：标记鱼的游动方向
 	float X=0.0f, Y=0.0f;				// 鱼的初始坐标位置
-	float speed	 =0;				// 线速度
-	float angular=0;				// 角速度
+	float speed	 =0;					// 线速度
+	float angular = 0.0f;
+	float accX=0.0f;				// 加速度
+	float accY=0.0f;
 	
 	private final Random rand = new Random();
 	
@@ -41,18 +43,13 @@ public class Fish extends AnimatedSprite implements GameParas{
 		super.onManagedUpdate(pSecondsElapsed);
 		
 		// 更新鱼
-		float x=this.getX();				// 获取鱼精灵当前的坐标(继承)
+		float x=this.getX();						// 获取鱼精灵当前的坐标(继承)
 		float y=this.getY();
-		float rotation = this.getRotation();	// 当前方位角度（继承）
+		float rotation = this.getRotation();		// 当前方位角度（继承）
+		float v_Y = mPhysicsHandler.getVelocityY();	// 当前速度
+		float v_X = mPhysicsHandler.getVelocityX();
 		
-		if(pathType == "Line")				// 直线游动
-		{
-			if(isOutOfBound())
-			{
-			}
-		}
-		// 做曲线运动时，方位角rotation在不断变化，为了保持速度，需要实时调整分速度
-		else if(pathType == "Circle")
+		if(pathType == "Circle")
 		{
 			switch(direction)
 			{
@@ -99,14 +96,10 @@ public class Fish extends AnimatedSprite implements GameParas{
 					mPhysicsHandler.setAccelerationY(-5);			// 竖直方向加速度
 				if(y < CAMERA_HEIGHT/2)
 					mPhysicsHandler.setAccelerationY(5);
-				float v_Y = mPhysicsHandler.getVelocityY();
-				float v_X = mPhysicsHandler.getVelocityX();
 				this.setRotation((1-direction)*180 + (float)(Math.atan(v_Y / v_X)*180/Math.PI));
 			}
 			else if((direction==0) && (x>CAMERA_WIDTH/2) ||(direction == 1) && (x<CAMERA_WIDTH/2))
-			{
 				mPhysicsHandler.setAccelerationY(0);			// 直线游动
-			}
 		}
 		else if(pathType == "Group")
 		{
@@ -114,16 +107,47 @@ public class Fish extends AnimatedSprite implements GameParas{
 				mPhysicsHandler.setAccelerationY(-5);			// 竖直方向加速度
 			if(y < CAMERA_HEIGHT/2)
 				mPhysicsHandler.setAccelerationY(5);
-			float v_Y = mPhysicsHandler.getVelocityY();
-			float v_X = mPhysicsHandler.getVelocityX();
+			this.setRotation((1-direction)*180 + (float)(Math.atan(v_Y / v_X)*180/Math.PI));
+		}
+		else if(pathType == "Bridge")
+		{
 			this.setRotation((1-direction)*180 + (float)(Math.atan(v_Y / v_X)*180/Math.PI));
 		}
 	}
 
+	public void setBridgePath(int i)
+	{
+		pathType = "Bridge";
+		this.speed = fishSpeed[this.Id]+(i*40);
+		float rotation = 0.0f;
+		switch(direction)
+		{
+		case 0:		// 从左向右
+		{
+			setPosition(X, Y);
+			rotation = 135;
+			break;
+		}
+		case 1:		// 从右向左
+		{
+			setPosition(X, Y);	
+			rotation = 45;	
+			//this.accY = 40;
+			break;
+		}
+		};
+		setRotation(rotation);
+		float speed_X = -1*speed*(float)Math.cos(rotation*Math.PI/180);
+		float speed_Y = -1*speed*(float)Math.sin(rotation*Math.PI/180);
+		mPhysicsHandler.setVelocity(speed_X, speed_Y);
+		accY = 2 * Math.abs(speed_X * speed_Y) / CAMERA_WIDTH;
+		mPhysicsHandler.setAccelerationY(accY);
+	}
+	
 	public void setGroupPath(int num, float p_Y)
 	{
 		pathType = "Group";
-		float speed = fishSpeed[this.Id];
+		this.speed = fishSpeed[this.Id];
 		float rotation = 0.0f;
 		switch(direction)
 		{
@@ -146,10 +170,11 @@ public class Fish extends AnimatedSprite implements GameParas{
 				//-1*speed*(float)Math.sin(rotation*3.14/180));	
 	}
 	
+	//设置曲线路经
 	public void setCurvePath()
 	{
 		pathType = "Curve";
-		float speed = fishSpeed[this.Id];
+		this.speed = fishSpeed[this.Id];
 		switch(direction)
 		{
 		case 0:		// 从左向右

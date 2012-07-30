@@ -94,6 +94,7 @@ public class GameActivity extends BaseGameActivity implements GameParas
 		
 		// 根据不同游戏模式创建不同的初始游动序列（这里暂用简单模式）
 		gamepattern = 1;
+		FishFactory.setEngine(mEngine);
 		FishFactory.getSingleInstance().createInitialPath(mScene, movingFish, FishRegion, gamepattern);
 		
 		// 20秒后开始随机游动序列
@@ -110,18 +111,18 @@ public class GameActivity extends BaseGameActivity implements GameParas
 				//{
 					timeRunning += 1 / 20.0f;
 					timeSlaps   += 1 / 20.0f;
-					if(timeRunning > 10.0f)			// 10秒后开始随机游动序列
+					if(timeRunning > 20.0f)			// 10秒后开始随机游动序列
 					{
 						FishFactory.getSingleInstance().createRandomFish(mScene, movingFish, FishRegion);
 						if(timeSlaps > 10.0f)
 						{   // 每隔10秒创建一次鱼群
 							FishFactory.getSingleInstance().createFishGroup(mScene, movingFish, FishRegion);
 							timeSlaps = 0.0f;				
-						}			
+						}	
+						// 监视器：实时更新场景中的鱼（清除超出场景的鱼）
+						if(movingFish.size() > 0)
+							FishMonitor.getSingleInstance().onFishMove(movingFish);
 					}	
-					// 监视器：实时更新场景中的鱼（清除超出场景的鱼）
-					if(movingFish.size() > 0)
-						FishMonitor.getSingleInstance().onFishMove(movingFish);
 				//}
 			}
 		}));

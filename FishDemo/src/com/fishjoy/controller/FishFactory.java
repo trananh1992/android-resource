@@ -3,12 +3,14 @@ package com.fishjoy.controller;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.util.Log;
 
 import com.fishjoy.activity.Fish;
+import com.fishjoy.model.CharPathData;
 import com.fishjoy.model.GameParas;
 
 /**
@@ -20,6 +22,7 @@ public class FishFactory implements GameParas{
 
 	private static FishFactory singleInstance = null;	// 单实例对象
 	private final Random rand = new Random();			// 随机数对象
+	private static Engine mEngine;
 	
 	// 获取工厂单例对象
 	public static FishFactory getSingleInstance()
@@ -29,6 +32,11 @@ public class FishFactory implements GameParas{
 		return singleInstance;
 	}
 	
+	public static void setEngine(Engine e)
+	{
+		mEngine = e;
+	}
+	
 	// 生成 初始 路径
 	public void createInitialPath(Scene mScene, ArrayList<Fish> movingFish, 
 			ArrayList<TiledTextureRegion> FishRegion, int gamepattern)
@@ -36,14 +44,113 @@ public class FishFactory implements GameParas{
 		switch(gamepattern)
 		{
 		case 1:					// 简单模式
-			createCirclePath(mScene, movingFish, FishRegion);
+			String str = "FISH JOY";
+			createStringPath(mScene, movingFish, FishRegion, str);
 			break;
 		case 2:					// 普通模式
+			createDiamondPath(mScene, movingFish, FishRegion);
 			break;
 		case 3:					// 困难模式
+			createBridgePath(mScene, movingFish, FishRegion);
 			break;
 		}
 	}
+	
+	
+	public void createStringPath(Scene mScene, ArrayList<Fish> movingFish, 
+			ArrayList<TiledTextureRegion> FishRegion, String str)
+	{
+		float nextBaseX = CAMERA_WIDTH;
+		for(int i = 0; i < str.length(); i++)
+		{
+			char ch = str.charAt(i);
+			if(ch == ' ')
+			{
+				Log.i("提示", "遇到空格");
+				nextBaseX += 100;
+				continue;
+			}
+				
+			CharPathData data = new CharPathData();
+			int[][] c = data.get_Matrix(String.valueOf(ch));
+			int column=c.length;
+			int row=c[0].length;
+			
+			for(int t = 0; t < column; t++)
+			{
+				for(int j=0; j < row; j++)
+				{
+					if(c[t][j]!=0)
+					{
+						// 创建动画精灵
+						Fish fish = new Fish(0, FishRegion.get(0).clone());
+						fish.setDirection("Right");
+						
+						fish.setp_Y(CAMERA_HEIGHT/4 + t*30);
+						fish.setp_X(nextBaseX + j*60);
+						
+						fish.setLinePath();
+						
+						fish.animate(100);
+						mScene.getChild(1).attachChild(fish);
+						movingFish.add(fish);
+					}
+				}
+			}	
+			nextBaseX += row * 60;
+		}
+	}
+	
+	
+	public void createBridgePath(Scene mScene, ArrayList<Fish> movingFish, 
+			ArrayList<TiledTextureRegion> FishRegion)
+	{
+		for(int t = 0; t < 2; t++)
+		{
+				int Id = Math.abs(rand.nextInt()) % 5;
+				Id = 0;
+				float bridge_Y = Math.abs(rand.nextFloat())*(CAMERA_HEIGHT/2);
+				for(int i = 0; i < 10; i++)
+				{
+					Fish fish = new Fish(Id, FishRegion.get(Id).clone());
+					fish.setDirection(fishDir[t]);
+					fish.setp_Y(bridge_Y+CAMERA_HEIGHT/2);
+					fish.setBridgePath(i);					
+					
+					fish.animate(100);
+					movingFish.add(fish);
+					mScene.getChild(1).attachChild(fish);	
+				}
+		}
+	}
+	
+	
+	public void createDiamondPath(Scene mScene, ArrayList<Fish> movingFish, 
+			ArrayList<TiledTextureRegion> FishRegion)
+	{
+		for(int t = 0; t < 5; t++)
+		{
+			float baseY = CAMERA_HEIGHT / 4;
+			float baseX = CAMERA_WIDTH + t*fishRegion[0][0]*5;
+			for(int i = 0; i < 5; i++)
+				for(int j = 0; j < 5; j++)			// i行j列
+				{
+					if(diamond[i][j] != 0)
+					{
+						Fish fish = new Fish(0, FishRegion.get(0).clone());
+						fish.setDirection("Right");	
+						fish.setp_X(baseX+j*fishRegion[0][0]);
+						fish.setp_Y(baseY+i*fishRegion[0][1]);
+						fish.setLinePath();							
+						fish.animate(100);
+						movingFish.add(fish);
+						// 将生成的鱼都附加到场景第一层——鱼层
+						mScene.getChild(1).attachChild(fish);	
+					}
+				}
+		}
+	}
+	
 	
 	public void createCirclePath(Scene mScene, ArrayList<Fish> movingFish, 
 			ArrayList<TiledTextureRegion> FishRegion)
