@@ -106,7 +106,7 @@ public class FishFactory implements GameParas{
 		Fish fish = new Fish(Id, FishRegion.get(Id).clone());
 		
 		fish.setY(CAMERA_HEIGHT / 2);
-		fish.setDirection("Right");				// 随机值：鱼的游动方向
+		fish.setDirection("Left");				// 随机值：鱼的游动方向
 		fish.setCurvePath();					// 这个设置放在最后，它能真正改变鱼的位置和路线
 		
 		fish.animate(100);
