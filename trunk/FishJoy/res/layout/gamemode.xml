@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <AbsoluteLayout
+        android:id="@+id/absoluteLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="132dp"
+            android:layout_height="200dp"
+            android:layout_x="202dp"
+            android:layout_y="120dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/simple"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/simple_mode_button" />
+
+            <Button
+                android:id="@+id/common"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/nomal_mode_button" />
+
+            <Button
+                android:id="@+id/hard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/hard_mode_button" />
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/backtomenu_button" />
+
+        </LinearLayout>
+
+    </AbsoluteLayout>
+
+</LinearLayout>
