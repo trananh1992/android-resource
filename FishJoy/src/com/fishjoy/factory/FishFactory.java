@@ -83,7 +83,7 @@ public class FishFactory{
 					if(c[t][j]!=0)
 					{
 						// 创建动画精灵
-						Fish fish = new Fish(0, (TiledTextureRegion) FishRegion.get(0).deepCopy());
+						Fish fish = new Fish(0, (TiledTextureRegion) FishRegion.get(0).clone());
 						fish.setDirection("Right");
 						
 						fish.setp_Y(GameControl.CAMERA_HEIGHT/4 + t*30);
@@ -112,7 +112,7 @@ public class FishFactory{
 				float bridge_Y = Math.abs(rand.nextFloat())*(GameControl.CAMERA_HEIGHT/2);
 				for(int i = 0; i < 10; i++)
 				{
-					Fish fish = new Fish(Id, FishRegion.get(Id).deepCopy());
+					Fish fish = new Fish(Id, FishRegion.get(Id).clone());
 					fish.setDirection(GameControl.fishDir[t]);
 					fish.setp_Y(bridge_Y+GameControl.CAMERA_HEIGHT/2);
 					fish.setBridgePath(i);					
@@ -137,7 +137,7 @@ public class FishFactory{
 				{
 					if(GameControl.diamond[i][j] != 0)
 					{
-						Fish fish = new Fish(0, FishRegion.get(0).deepCopy());
+						Fish fish = new Fish(0, FishRegion.get(0).clone());
 						fish.setDirection("Right");	
 						fish.setp_X(baseX+j*GameControl.fishRegion[0][0]);
 						fish.setp_Y(baseY+i*GameControl.fishRegion[0][1]);
@@ -158,7 +158,7 @@ public class FishFactory{
 		for(int i = 0; i < 3; i++)
 		{	// 用三条鱼构建鱼群，分布在上中下
 			// 使用了第一种鱼,Id == 0
-				Fish fish = new Fish(0, FishRegion.get(0).deepCopy());
+				Fish fish = new Fish(0, FishRegion.get(0).clone());
 				if(i==0)
 					fish.setp_Y(70);
 				else if(i==1)
@@ -189,7 +189,7 @@ public class FishFactory{
 		
 		for(int i = 0; i < num; i++)
 		{
-			Fish fish = new Fish(0, FishRegion.get(0).deepCopy());		
+			Fish fish = new Fish(0, FishRegion.get(0).clone());		
 			fish.setDirection(GameControl.fishDir[randDir]);					// 随机值：鱼的游动方向
 			fish.setGroupPath(i, group_Y);									// 这个设置放在最后，它能真正改变鱼的位置和路线
 			
@@ -232,7 +232,7 @@ public class FishFactory{
 			ArrayList<TiledTextureRegion> FishRegion)
 	{
 		int Id = Math.abs(rand.nextInt()) % 5;
-		Fish fish = new Fish(Id, FishRegion.get(Id).deepCopy());
+		Fish fish = new Fish(Id, FishRegion.get(Id).clone());
 		
 		int randDir = Math.abs(rand.nextInt()) % 2;
 		fish.setDirection(GameControl.fishDir[randDir]);			// 随机值：鱼的游动方向
@@ -248,7 +248,7 @@ public class FishFactory{
 			ArrayList<TiledTextureRegion> FishRegion)
 	{
 		int Id = Math.abs(rand.nextInt()) % 5;
-		Fish fish = new Fish(Id, FishRegion.get(Id).deepCopy());
+		Fish fish = new Fish(Id, FishRegion.get(Id).clone());
 		
 		int randDir = Math.abs(rand.nextInt()) % 2;
 		fish.setDirection(GameControl.fishDir[randDir]);			// 随机值：鱼的游动方向
@@ -264,7 +264,7 @@ public class FishFactory{
 			ArrayList<TiledTextureRegion> FishRegion)
 	{
 		int Id = Math.abs(rand.nextInt()) % 5;
-		Fish fish = new Fish(Id, FishRegion.get(Id).deepCopy());
+		Fish fish = new Fish(Id, FishRegion.get(Id).clone());
 		
 		int randDir = Math.abs(rand.nextInt()) % 4;
 		fish.setDirection(GameControl.fishDir[randDir]);		// 随机值：鱼的游动方向

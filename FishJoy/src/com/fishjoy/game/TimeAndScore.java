@@ -21,7 +21,7 @@ public class TimeAndScore {
 	protected static void createTime(TiledTextureRegion mTimeNumTextureRegion, Scene scene) {
 		for (int i = 0; i < 4; i++) {
 			AnimatedSprite time = new AnimatedSprite(20 * i + 70, 25,
-					mTimeNumTextureRegion.deepCopy());
+					mTimeNumTextureRegion.clone());
 			time.setSize(20, 20);
 			GameControl.timeAnimatedSprites.add(time);
 			scene.attachChild(GameControl.timeAnimatedSprites.get(i));
@@ -36,7 +36,7 @@ public class TimeAndScore {
 	protected static void  createTotalScore(TiledTextureRegion mScoreNumTextureRegion, Scene scene) {
 		for (int i = 0; i < 4; i++) {
 			AnimatedSprite score = new AnimatedSprite(20 * i + 70, 56,
-					mScoreNumTextureRegion.deepCopy());
+					mScoreNumTextureRegion.clone());
 			score.setSize(20, 26);
 			GameControl.scoreAnimatedSprites.add(score);
 			scene.attachChild(GameControl.scoreAnimatedSprites.get(i));

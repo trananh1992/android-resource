@@ -398,7 +398,7 @@ public class GamePlay extends BaseGameActivity implements IOnSceneTouchListener,
 		});	
 		GameControl.movingFish.get(m).detachSelf();
 		GameControl.movingFish.remove(m);
-		final Fish fish = new Fish(x, y, GamePlay.this.FishRegion.get(2).deepCopy());
+		final Fish fish = new Fish(x, y, GamePlay.this.FishRegion.get(2).clone());
 		mMainScene.attachChild(fish);
 		fish.animate(100);
 		fish.setSize(36 * GameControl.SCALEX, 18 * GameControl.SCALEY);
