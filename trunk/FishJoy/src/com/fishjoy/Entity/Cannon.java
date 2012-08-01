@@ -39,7 +39,7 @@ public class Cannon extends AnimatedSprite{
 			final GamePlay gamePlay, Scene scene) {
 		// TODO Auto-generated method stub
 		final Bullet bullet = new Bullet(getX() + getWidth()/2, getY(), getType(), 
-				bulletTextureRegion.deepCopy());
+				bulletTextureRegion.clone());
 
 		bullet.setRotation(MathUtils.radToDeg(angle) - 90);
 		

@@ -19,7 +19,7 @@ public class Bullet extends AnimatedSprite{
 	public Net generateNet(TiledTextureRegion netTextureRegion, final Scene scene) {
 		// TODO Auto-generated method stub
 		final Net net = new Net(getX(), getY() - getHeight(), this.type, 
-				netTextureRegion.deepCopy());
+				netTextureRegion.clone());
 		net.animate(new long[]{100,100,100,100,100000000});
 		scene.registerUpdateHandler(new TimerHandler(2.0f, new ITimerCallback() {
 			
