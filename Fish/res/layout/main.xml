@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout android:layout_height="wrap_content"
+	android:id="@+id/tableLayout1" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent">
+	<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_height="600px" android:fadingEdge="vertical"
+			android:layout_width="wrap_content">
+			<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="vertical" android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+				<org.hgworkhouse.GameView android:id="@+id/gameView1"
+					android:layout_width="fill_parent" android:layout_height="wrap_content" android:background="@drawable/bg">
+				</org.hgworkhouse.GameView>
+			</LinearLayout>
+		</ScrollView>
+	</TableRow>
+	<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<LinearLayout android:id="@+id/linearLayout1"
+			android:layout_width="match_parent" android:layout_height="match_parent">
+			<Button android:id="@+id/button1"
+				android:text="@string/randCard" android:layout_height="46dp" android:layout_width="58dp" android:layout_weight="0.03"></Button>
+			<Button android:id="@+id/button2"
+				android:layout_height="match_parent" android:layout_width="100px" android:text="@string/pushCard" android:layout_weight="0.14" android:layout_marginLeft="100px"></Button>
+		</LinearLayout>
+	</TableRow>
+	<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<TextView android:text="TextView" android:id="@+id/textView1"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	</TableRow>
+
+</TableLayout>
