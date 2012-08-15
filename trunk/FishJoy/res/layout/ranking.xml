@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rankbackground"
+    android:orientation="horizontal" >
+
+    <AbsoluteLayout
+        android:id="@+id/absoluteLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/scoreviewe"
+            android:layout_width="105dp"
+            android:layout_height="130dp"
+            android:layout_x="40dp"
+            android:layout_y="70dp" />
+
+        <TextView
+            android:id="@+id/scoreviewn"
+            android:layout_width="111dp"
+            android:layout_height="135dp"
+            android:layout_x="211dp"
+            android:layout_y="100dp" />
+
+        <TextView
+            android:id="@+id/scoreviewh"
+            android:layout_width="111dp"
+            android:layout_height="126dp"
+            android:layout_x="384dp"
+            android:layout_y="86dp" />
+
+        <Button
+            android:id="@+id/rankback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="228dp"
+            android:layout_y="274dp"
+            android:background="@drawable/backselected" />
+
+    </AbsoluteLayout>
+
+</LinearLayout>
