@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, FishJoy!</string>
+    <string name="app_name">FishJoy</string>
+    <string name="resid2">正在加载</string><string name="resid1">资源加载</string>
+    
+
+</resources>
