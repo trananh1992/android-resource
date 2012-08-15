@@ -16,5 +16,8 @@
     <string name="title_activity_tank_drag">TankDrag</string>
     <string name="title_activity_entity_modifier">EntityModifier</string>
     <string name="title_activity_path">pathActivity</string>
+    <string name="title_activity_async">AsyncActivity</string>
+    <string name="test1">资源加载</string>
+    <string name="test2">加载中</string>
 
 </resources>
