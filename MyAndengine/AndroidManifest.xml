@@ -70,6 +70,10 @@
             android:name="org.andengine.learn.PathActivity"
             android:label="@string/title_activity_path" >
         </activity>
+        <activity
+            android:name="org.andengine.learn.AsyncActivity"
+            android:label="@string/title_activity_async" >
+        </activity>
     </application>
 
 </manifest>

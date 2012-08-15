@@ -11,6 +11,9 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.entity.primitive.Line;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 public class BasicActivity extends BaseGameActivity {
@@ -47,9 +50,31 @@ public class BasicActivity extends BaseGameActivity {
 		// 初始化scene时不指定层数会出错
 		scene.getFirstChild().attachChild(line);
 		
+		this.saveData();
+		
 		return scene;
 	}
 
+	public void saveData()
+    {
+    	SharedPreferences preferences = getSharedPreferences("PathSaver", Context.MODE_PRIVATE);
+        Editor editor = preferences.edit();
+        editor.putString("path", "5,3,1,1,1,1,0,0,1,1,1,1,0,0,1,0,0");
+        editor.commit();
+        
+        String string = preferences.getString("path", "");
+        String[] stringArray = string.split("\\,");
+        int[] a = new int[stringArray.length];
+        
+        for (int i = 0; i < stringArray.length; i++) {
+			a[i] = Integer.parseInt(stringArray[i]);
+		}
+        for(int i = 0; i < a.length; i++)
+        {
+        	System.out.println(a[i]+" ");
+        }
+    }
+	
 	@Override
 	public void onLoadComplete() {
 		Log.e(TAG,"onLoadComplete" );

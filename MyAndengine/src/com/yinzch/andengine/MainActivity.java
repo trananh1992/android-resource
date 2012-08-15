@@ -1,5 +1,6 @@
 package com.yinzch.andengine;
 
+import org.andengine.learn.AsyncActivity;
 import org.andengine.learn.BasicActivity;
 import org.andengine.learn.EntityModifier;
 import org.andengine.learn.FpsActivity;
@@ -28,7 +29,7 @@ public class MainActivity extends ListActivity {
         // 不能再设置布局
         //setContentView(R.layout.activity_main);
         String[] items = {"Basic Activity", "FPS Activity", "Sprite 01", "Sprite 02", "动画精灵：移动的小球",
-        		"静态图片背景", "移动的坦克", "划线", "Sprite 03", "拖曳坦克", "Modifier更新实体", "路径精灵"};
+        		"静态图片背景", "移动的坦克", "划线", "Sprite 03", "拖曳坦克", "Modifier更新实体", "路径精灵", "异步加载"};
         setListAdapter(new ArrayAdapter<String>(this,
         		android.R.layout.simple_list_item_1, items));
         getListView().setTextFilterEnabled(true);
@@ -88,6 +89,10 @@ public class MainActivity extends ListActivity {
     		break;
     	case 11:
     		intent = new Intent(MainActivity.this, PathActivity.class);
+    		startActivity(intent);
+    		break;
+    	case 12:
+    		intent = new Intent(MainActivity.this, AsyncActivity.class);
     		startActivity(intent);
     		break;
     	default:
