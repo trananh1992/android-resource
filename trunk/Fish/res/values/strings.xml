@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">寒光：纸牌钓鱼</string>
+	<string name="game_start">开始</string>
+	<string name="game_history">继续游戏</string>
+	<string name="game_set">游戏设定</string>
+	<string name="game_des">游戏说明</string>
+	<string name="game_about">关于</string>
+	<string name="game_exit">退出</string>
+	<string name="game_des_content">由玩家和电脑顺序出牌，如果在桌面上有一样的纸牌将会将其之间的牌作为自己的手牌。直到玩家没手牌，或者是电脑都没有手牌，游戏才结束
+	</string>
+	<string name="close">关闭</string>
+	<string name="game_about_content">寒光工作室制作：hgworkhouse.org</string>
+	<string name="player_name">玩家名称</string>
+	<string name="card_sets">纸牌套数</string>
+	<string name="sure">确定</string>
+	<string name="reset">重置</string>
+	<string name="game_control">游戏控制</string>
+	<string name="replay">重玩</string>
+	<string name="back">返回</string>
+	<string name="randCard">随机洗牌</string>
+	<string name="pushCard">出牌</string>
+	<string name="playerNum">玩家数</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:background="@drawable/bg">
+    <Button android:id="@+id/button1" android:layout_width="200px" android:layout_height="wrap_content" android:text="@string/game_start" android:layout_x="140px" android:layout_y="200px"></Button>
+    <Button android:id="@+id/button2" android:layout_width="200px" android:layout_height="wrap_content" android:text="@string/game_history" android:layout_x="140px" android:layout_y="270px" android:visibility="invisible"></Button>
+    <Button android:id="@+id/button3" android:layout_width="200px" android:layout_height="wrap_content" android:text="@string/game_set" android:layout_x="140px" android:layout_y="340px" ></Button>
+    <Button android:id="@+id/button4" android:layout_width="200px" android:layout_height="wrap_content" android:text="@string/game_des" android:layout_x="140px" android:layout_y="410px" ></Button>
+    <Button android:id="@+id/button5" android:layout_width="200px" android:layout_height="wrap_content" android:text="@string/game_about" android:layout_x="140px" android:layout_y="480px" ></Button>
+    <Button android:id="@+id/button6" android:layout_width="200px" android:layout_height="wrap_content" android:text="@string/game_exit" android:layout_x="140px" android:layout_y="550px" ></Button>
+</AbsoluteLayout>
